@@ -479,8 +479,8 @@
     }
 
   .gallery-item.portrait {
-  grid-column: span 3;
-  grid-row: span 4;
+  grid-column: span 2;
+  grid-row: span 3;
 }
 
 .gallery-item.wide {
@@ -624,7 +624,11 @@
         linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
     }
 
-    .contact-card h2 { font-size: clamp(68px, 10vw, 140px); }
+   .contact-card h2 {
+  font-size: clamp(68px, 10vw, 140px);
+  margin-top: 20px;
+  line-height: .9;
+}
     .contact-card p { margin: 22px auto 0; color: var(--muted); }
 
     .contact-links {
