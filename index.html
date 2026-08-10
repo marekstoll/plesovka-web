@@ -770,7 +770,19 @@
   <footer>
     © <span id="year"></span> PULS3 · Všechna práva vyhrazena
   </footer>
+</footer>
 
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" type="button">×</button>
+  <button class="lightbox-prev" type="button">‹</button>
+
+  <img class="lightbox-image" id="lightboxImage" src="" alt="PULS3 galerie">
+
+  <button class="lightbox-next" type="button">›</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<script>
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
