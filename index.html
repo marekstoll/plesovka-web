@@ -530,7 +530,87 @@
     .gallery-item:hover img,
     .gallery-item:hover video { transform: scale(1.045); }
     .gallery-item:hover::after { opacity: .1; }
+.gallery-open {
+  cursor: pointer;
+}
 
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3,2,6,.96);
+  backdrop-filter: blur(12px);
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox-image {
+  max-width: 88vw;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 30px 100px rgba(0,0,0,.7);
+}
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+  position: fixed;
+  z-index: 10001;
+  border: 0;
+  color: white;
+  background: rgba(20,16,28,.7);
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.lightbox-close {
+  top: 22px;
+  right: 25px;
+  width: 52px;
+  height: 52px;
+  font-size: 35px;
+}
+
+.lightbox-prev,
+.lightbox-next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 58px;
+  height: 58px;
+  font-size: 45px;
+}
+
+.lightbox-prev { left: 25px; }
+.lightbox-next { right: 25px; }
+
+.lightbox-counter {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255,255,255,.7);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+@media (max-width: 720px) {
+  .lightbox-image {
+    max-width: 94vw;
+    max-height: 82vh;
+  }
+
+  .lightbox-prev { left: 8px; }
+  .lightbox-next { right: 8px; }
+}
     /* CONTACT */
     .contact { padding-bottom: 70px; }
 
@@ -770,7 +850,6 @@
   <footer>
     © <span id="year"></span> PULS3 · Všechna práva vyhrazena
   </footer>
-</footer>
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" type="button">×</button>
@@ -783,7 +862,6 @@
 </div>
 
 <script>
-  <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
     // Jemné reveal animace při scrollování.
@@ -826,6 +904,88 @@
         ticking = false;
       });
     }, { passive: true });
+  const galleryImages = [
+  "images/2.JPG",
+  "images/3.JPG",
+  "images/4.jpg",
+  "images/5.jpg",
+  "images/6.JPG",
+  "images/7.jpg",
+  "images/8.JPG",
+  "images/9.jpg",
+  "images/10.png",
+  "images/11.JPG",
+  "images/12.png",
+  "images/13.jpeg",
+  "images/a.jpg",
+  "images/b.jpg"
+];
+
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const lightboxCounter = document.getElementById("lightboxCounter");
+const prevButton = document.querySelector(".lightbox-prev");
+const nextButton = document.querySelector(".lightbox-next");
+const closeButton = document.querySelector(".lightbox-close");
+
+let currentImage = 0;
+
+function showImage() {
+  lightboxImage.src = galleryImages[currentImage];
+  lightboxCounter.textContent = `${currentImage + 1} / ${galleryImages.length}`;
+}
+
+function openGallery(index) {
+  currentImage = index;
+  showImage();
+  lightbox.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeGallery() {
+  lightbox.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+document.querySelectorAll(".gallery-open").forEach((item) => {
+  item.addEventListener("click", () => {
+    const src = item.querySelector("img").getAttribute("src");
+    const index = galleryImages.indexOf(src);
+    openGallery(index >= 0 ? index : 0);
+  });
+});
+
+nextButton.addEventListener("click", () => {
+  currentImage = (currentImage + 1) % galleryImages.length;
+  showImage();
+});
+
+prevButton.addEventListener("click", () => {
+  currentImage = (currentImage - 1 + galleryImages.length) % galleryImages.length;
+  showImage();
+});
+
+closeButton.addEventListener("click", closeGallery);
+
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeGallery();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (!lightbox.classList.contains("active")) return;
+
+  if (e.key === "ArrowRight") {
+    currentImage = (currentImage + 1) % galleryImages.length;
+    showImage();
+  }
+
+  if (e.key === "ArrowLeft") {
+    currentImage = (currentImage - 1 + galleryImages.length) % galleryImages.length;
+    showImage();
+  }
+
+  if (e.key === "Escape") closeGallery();
+});
   </script>
 </body>
 </html>
