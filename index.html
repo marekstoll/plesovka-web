@@ -478,11 +478,15 @@
       background: #121018;
     }
 
-    .gallery-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
-    .gallery-item:nth-child(2) { grid-column: span 5; grid-row: span 2; }
-    .gallery-item:nth-child(3) { grid-column: span 4; grid-row: span 2; }
-    .gallery-item:nth-child(4) { grid-column: span 4; grid-row: span 2; }
-    .gallery-item:nth-child(5) { grid-column: span 4; grid-row: span 2; }
+  .gallery-item.portrait {
+  grid-column: span 3;
+  grid-row: span 4;
+}
+
+.gallery-item.wide {
+  grid-column: span 6;
+  grid-row: span 3;
+}
 
     .gallery-item img,
     .gallery-item video {
