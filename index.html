@@ -495,7 +495,28 @@
       object-fit: cover;
       transition: transform .6s cubic-bezier(.2,.8,.2,1), filter .6s ease;
     }
+.gallery-teaser {
+  transform: scale(.82);
+  cursor: pointer;
+}
 
+.gallery-teaser img {
+  filter: blur(5px) brightness(.45);
+  transform: scale(1.08);
+}
+
+.gallery-teaser span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  z-index: 2;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: .12em;
+  color: white;
+}
     .gallery-item::after {
       content: "";
       position: absolute;
