@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#07050c" />
-  <title>NOVÝ NÁZEV | Kapela</title>
-  <meta name="description" content="NOVÝ NÁZEV – živá kapela pro firemní večírky, taneční zábavy, městské slavnosti a maturitní plesy." />
+  <title>PULS3 | Kapela</title>
+  <meta name="description" content="PULS3 – živá kapela pro firemní večírky, taneční zábavy, městské slavnosti a maturitní plesy." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -150,7 +150,7 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
-      filter: saturate(.88) contrast(1.06) brightness(.76);
+      filter: blur(2.5px) saturate(.85) contrast(1.08) brightness(.52);
       transform: scale(1.025);
     }
 
@@ -160,8 +160,8 @@
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(to bottom, rgba(5,4,8,.12) 0%, rgba(5,4,8,.22) 42%, #07050c 100%),
-        linear-gradient(90deg, rgba(8,4,15,.65), rgba(8,4,15,.18) 55%, rgba(8,4,15,.56));
+        linear-gradient(to bottom, rgba(5,4,8,.48) 0%, rgba(5,4,8,.28) 42%, #07050c 100%),
+        linear-gradient(90deg, rgba(8,4,15,.78), rgba(8,4,15,.12) 50%, rgba(8,4,15,.72));
     }
 
     .hero::after {
@@ -639,14 +639,13 @@
   <header class="hero" id="home">
     <!-- VIDEO JE NAHRANÉ PŘÍMO NA WEBU. Nahraď soubor media/hero.mp4 vlastním videem. -->
     <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="images/hero-poster.jpg">
-      <source src="media/hero.mp4" type="video/mp4" />
+      <source src="images/nouz%C3%A1k%20video%20pro%20web.mp4" type="video/mp4" />
       <!-- Volitelně můžeš přidat i WebM verzi: <source src="media/hero.webm" type="video/webm" /> -->
     </video>
 
     <div class="hero-content reveal is-visible">
-      <div class="eyebrow">Live band · Czech Republic</div>
       <!-- ZMĚŇ ZDE NOVÝ NÁZEV KAPELY -->
-      <h1 class="brand">NOVÝ <span class="accent">NÁZEV</span></h1>
+      <h1 class="brand">PULS<span class="accent">3</span></h1>
       <p class="tagline">Firemní večírky · Taneční zábavy · Městské slavnosti · Maturitní plesy</p>
       <div class="hero-buttons">
         <a class="btn primary" href="#contact">Chci kapelu</a>
@@ -752,7 +751,7 @@
   </main>
 
   <footer>
-    © <span id="year"></span> NOVÝ NÁZEV · Všechna práva vyhrazena
+    © <span id="year"></span> PULS3 · Všechna práva vyhrazena
   </footer>
 
   <script>
