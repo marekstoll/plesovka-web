@@ -602,25 +602,31 @@
   letter-spacing: .12em;
 }
 .downloads-section {
-  padding: 40px 20px 60px;
+  padding: 20px 20px 18px;
 }
 
 .downloads-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 190px);
   justify-content: center;
-  align-items: center;
-  gap: 80px;
+  align-items: start;
+  gap: 25px;
+  width: 100%;
 }
 
 .download-card {
+  width: 190px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   gap: 6px;
   color: white;
   text-decoration: none;
-  font-weight: 7;
+  font-weight: 800;
+  font-size: 9px;
   letter-spacing: .08em;
+  text-align: center;
 }
 
 .download-card img {
@@ -630,12 +636,12 @@
 }
 
 .download-card:hover img {
-  transform: translateY(-5px) scale(1.05);
+  transform: translateY(-3px) scale(1.05);
 }
 
 .footer-projects {
   text-align: center;
-  margin-bottom: 22px;
+  margin-bottom: 10px;
   font-size: 11px;
   letter-spacing: .14em;
   color: #b995ff;
