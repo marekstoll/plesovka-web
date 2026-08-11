@@ -601,7 +601,75 @@
   font-weight: 700;
   letter-spacing: .12em;
 }
+.downloads-section {
+  padding: 40px 20px 60px;
+}
 
+.downloads-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+}
+
+.download-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: white;
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.download-card img {
+  width: 90px;
+  height: auto;
+  transition: transform .3s ease;
+}
+
+.download-card:hover img {
+  transform: translateY(-5px) scale(1.05);
+}
+
+.footer-projects {
+  text-align: center;
+  margin-bottom: 22px;
+  font-size: 11px;
+  letter-spacing: .14em;
+  color: #b995ff;
+}
+
+.footer-projects span {
+  display: block;
+  margin-bottom: 7px;
+}
+
+.footer-projects a {
+  color: #b995ff;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.footer-projects a:hover {
+  color: white;
+}
+
+@media (max-width: 720px) {
+  .downloads-grid {
+    gap: 40px;
+  }
+
+  .download-card {
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .download-card img {
+    width: 65px;
+  }
+}
 @media (max-width: 720px) {
   .lightbox-image {
     max-width: 94vw;
