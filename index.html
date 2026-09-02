@@ -808,6 +808,60 @@
       }
       .reveal, .reveal-left { opacity: 1; transform: none; filter: none; }
     }
+    .listen-details {
+  position: relative;
+}
+
+.listen-details summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.listen-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.listen-grid {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(3, 150px);
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 14px;
+  background: rgba(8,6,14,.96);
+  box-shadow: 0 16px 40px rgba(0,0,0,.45);
+}
+
+.listen-grid img {
+  width: 150px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform .2s ease;
+}
+
+.listen-grid img:hover {
+  transform: scale(1.04);
+}
+
+@media (max-width: 700px) {
+  .listen-grid {
+    position: fixed;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    grid-template-columns: repeat(2, 125px);
+    max-width: calc(100vw - 28px);
+  }
+
+  .listen-grid img {
+    width: 125px;
+  }
+}
   </style>
 </head>
 <body>
@@ -833,10 +887,25 @@
       <!-- ZMĚŇ ZDE NOVÝ NÁZEV KAPELY -->
       <h1 class="brand">PULS<span class="accent">3</span></h1>
       <p class="tagline">Firemní večírky · Taneční zábavy · Městské slavnosti · Maturitní plesy</p>
-      <div class="hero-buttons">
-        <a class="btn primary" href="#contact">Chci kapelu</a>
-        <a class="btn" href="#gallery">Galerie</a>
-      </div>
+     <div class="hero-buttons">
+  <a class="btn primary" href="#contact">Chci kapelu</a>
+  <a class="btn" href="#gallery">Galerie</a>
+
+  <details class="listen-details">
+    <summary class="btn">Poslechni si nás</summary>
+    <div class="listen-grid">
+      <a href="https://youtu.be/TbQmx09QtMk" target="_blank">
+        <img src="https://img.youtube.com/vi/TbQmx09QtMk/hqdefault.jpg" alt="Video 1">
+      </a>
+      <a href="https://youtu.be/1nlUqMj9Pvg" target="_blank">
+        <img src="https://img.youtube.com/vi/1nlUqMj9Pvg/hqdefault.jpg" alt="Video 2">
+      </a>
+      <a href="https://youtu.be/2XkChHHTBuM" target="_blank">
+        <img src="https://img.youtube.com/vi/2XkChHHTBuM/hqdefault.jpg" alt="Video 3">
+      </a>
+    </div>
+  </details>
+</div>
     </div>
 
     <div class="scroll-cue" aria-hidden="true">Scroll<span></span></div>
