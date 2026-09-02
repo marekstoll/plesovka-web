@@ -309,7 +309,7 @@
     /* SECTIONS */
     section {
       position: relative;
-      padding: 112px 0;
+      padding: 56px 0;
     }
 
     .section-label {
@@ -787,7 +787,7 @@
       .site-nav a { padding: 11px 14px; font-size: 11px; }
       .hero-content { padding-top: 110px; }
       .brand { font-size: clamp(74px, 23vw, 132px); }
-      section { padding: 82px 0; }
+      section { padding: 41px 0; }
       .about-grid { gap: 28px; }
       .members { grid-template-columns: repeat(2, 1fr); }
       .gallery-head { display: block; }
@@ -853,14 +853,18 @@
 }
 
 @media (max-width: 700px) {
-  .listen-grid {
-    position: fixed;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    grid-template-columns: repeat(2, 125px);
-    max-width: calc(100vw - 28px);
-  }
+ .listen-grid {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  grid-template-columns: repeat(2, 125px);
+  max-width: calc(100vw - 28px);
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+}
 
   .listen-grid img {
     width: 125px;
