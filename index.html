@@ -647,15 +647,36 @@
   color: #b995ff;
 }
 
-.footer-projects span {
+.footer-projects > span {
   display: block;
   margin-bottom: 7px;
 }
 
-.footer-projects a {
-  color: #b995ff;
-  text-decoration: none;
+.narezak-link {
+  display: block;
+  color: #ffd84d;
   font-weight: 800;
+  text-shadow: 0 0 7px rgba(255,216,77,.55);
+}
+
+.stinovlas-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 9px;
+}
+
+.stinovlas-link {
+  color: #050505;
+  font-weight: 900;
+  text-shadow: 0 0 3px #ffd84d, 0 0 7px rgba(255,216,77,.65);
+}
+
+.instagram-link img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .footer-projects a:hover {
@@ -1042,12 +1063,23 @@
 </section>
  <footer>
 
-  <div class="footer-projects">
-    <span>DALŠÍ PROJEKTY</span>
-    <a href="https://narezakfest.com/" target="_blank">
-      FESTIVAL NÁŘEZÁK
+ <div class="footer-projects">
+  <span>DALŠÍ PROJEKTY</span>
+
+  <a class="narezak-link" href="https://narezakfest.com/" target="_blank">
+    FESTIVAL NÁŘEZÁK
+  </a>
+
+  <div class="stinovlas-row">
+    <a class="stinovlas-link" href="https://kapelastinovlas.cz/" target="_blank">
+      AUTORSKÁ KAPELA STÍNOVLAS
+    </a>
+
+    <a class="instagram-link" href="https://www.instagram.com/kapela_stinovlas/" target="_blank">
+      <img src="images/ig.png" alt="Instagram Stínovlas">
     </a>
   </div>
+</div>
 
   <div>
     © <span id="year"></span> PULS3 · VŠECHNA PRÁVA VYHRAZENA
