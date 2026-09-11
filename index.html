@@ -125,7 +125,21 @@
       background: rgba(255,255,255,.08);
       transform: translateY(-1px);
     }
+.site-nav .contest-nav-btn {
+  background: #ffd400;
+  color: #090909;
+  font-weight: 800;
+  letter-spacing: .02em;
+  text-transform: none;
+  white-space: nowrap;
+  box-shadow: 0 0 22px rgba(255, 212, 0, .38);
+}
 
+.site-nav .contest-nav-btn:hover {
+  background: #ffe45c;
+  color: #000;
+  box-shadow: 0 0 30px rgba(255, 212, 0, .58);
+}
     .site-nav.nav-hidden {
       transform: translate(-50%, -140%);
       opacity: 0;
@@ -805,9 +819,29 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
       .gallery-item:nth-child(2) img {
   object-position: center 20%;
 }
-      .site-nav { top: 10px; width: calc(100% - 20px); justify-content: center; }
-      .site-nav a { padding: 11px 14px; font-size: 11px; }
-      .hero-content { padding-top: 110px; }
+      .site-nav {
+  top: 10px;
+  width: calc(100% - 20px);
+  justify-content: center;
+  flex-wrap: wrap;
+  border-radius: 26px;
+}
+
+.site-nav a {
+  padding: 11px 14px;
+  font-size: 11px;
+}
+
+.site-nav .contest-nav-btn {
+  flex: 0 0 100%;
+  padding: 11px 12px;
+  text-align: center;
+  white-space: normal;
+}
+
+.hero-content {
+  padding-top: 165px;
+}
       .brand { font-size: clamp(74px, 23vw, 132px); }
       section { padding: 41px 0; }
       .about-grid { gap: 28px; }
@@ -904,6 +938,7 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
     <a href="#about">O nás</a>
     <a href="#gallery">Galerie</a>
     <a href="#contact">Kontakt</a>
+    <a class="contest-nav-btn" href="/soutez/">Zahraj si a vyhraj kapelu na maturák ZDARMA</a>
   </nav>
 
   <header class="hero" id="home">
