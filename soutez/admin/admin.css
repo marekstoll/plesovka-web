@@ -1,0 +1,86 @@
+:root {
+  color-scheme: dark;
+  --bg: #08050d;
+  --panel: rgba(20, 12, 29, 0.94);
+  --line: rgba(255, 255, 255, 0.13);
+  --muted: #aa9cb3;
+  --gold: #ffd400;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: #f8f4fb;
+  background: radial-gradient(circle at 70% 0, rgba(126, 36, 190, 0.2), transparent 32%), var(--bg);
+  font-size: 16px;
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+.admin-header {
+  min-height: 68px;
+  padding: 10px clamp(16px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  background: rgba(8, 5, 13, 0.88);
+}
+.admin-brand { color: #fff; text-decoration: none; font-size: 1.55rem; font-weight: 950; font-style: italic; }
+.admin-brand strong { color: var(--gold); }
+.admin-brand span { margin-left: 8px; color: var(--muted); font-size: .65rem; font-style: normal; letter-spacing: .17em; }
+button {
+  min-height: 42px;
+  padding: 9px 15px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: #fff;
+  background: rgba(255,255,255,.06);
+  font-weight: 800;
+}
+button:hover, button:focus-visible { border-color: rgba(255,212,0,.58); outline: none; }
+
+main { width: min(1500px, calc(100% - 32px)); margin: 48px auto 80px; }
+.login-panel { width: min(520px, 100%); margin: 12vh auto 0; padding: 38px; border: 1px solid var(--line); border-radius: 22px; background: var(--panel); }
+.login-panel h1, .dashboard h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.4rem); }
+.login-panel > p:not(.kicker) { color: var(--muted); }
+.login-panel form { display: grid; gap: 15px; margin-top: 26px; }
+label { display: grid; gap: 7px; color: #d8cfdd; font-size: .84rem; font-weight: 800; }
+input { width: 100%; min-height: 48px; padding: 10px 13px; border: 1px solid var(--line); border-radius: 10px; color: #fff; background: #09060e; }
+.admin-captcha { min-height: 65px; }
+.login-panel form button, #exportCsvButton { color: #09070b; background: var(--gold); }
+.kicker { margin: 0 0 7px; color: var(--gold); font-size: .74rem; font-weight: 900; letter-spacing: .15em; }
+#loginMessage, .admin-message { min-height: 24px; color: #ffb8ad; }
+
+.dashboard-heading, .card-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.summary-grid { margin: 28px 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+.summary-grid article { padding: 22px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+.summary-grid span, .summary-grid strong { display: block; }
+.summary-grid span { color: var(--muted); font-size: .78rem; font-weight: 800; }
+.summary-grid strong { margin-top: 5px; color: var(--gold); font-size: 2rem; }
+.admin-card { margin-top: 22px; padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: var(--panel); }
+.admin-card h2 { margin: 0; }
+.card-actions { display: flex; gap: 9px; }
+.card-actions input { width: min(330px, 45vw); }
+.table-wrap { margin-top: 18px; overflow-x: auto; }
+table { width: 100%; min-width: 980px; border-collapse: collapse; }
+th, td { padding: 13px 11px; border-bottom: 1px solid rgba(255,255,255,.08); text-align: left; vertical-align: top; }
+th { color: var(--muted); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }
+td { color: #e3dbe7; font-size: .84rem; }
+td small { display: block; margin-top: 4px; color: var(--muted); }
+.status-active { color: #79e7aa; }
+.status-disabled, .flag-list { color: #ffad9f; }
+.row-actions { display: flex; gap: 6px; }
+.row-actions button { min-height: 34px; padding: 6px 9px; font-size: .72rem; }
+.empty-cell { padding: 28px; color: var(--muted); text-align: center; }
+
+@media (max-width: 850px) {
+  main { margin-top: 28px; }
+  .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  .card-heading { align-items: stretch; flex-direction: column; }
+  .card-actions { flex-direction: column; }
+  .card-actions input { width: 100%; }
+}

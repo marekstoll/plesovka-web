@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>Správa soutěže | PULS3</title>
+    <link rel="stylesheet" href="admin.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0" defer></script>
+    <script src="../config.js" defer></script>
+    <script src="admin.js" defer></script>
+  </head>
+  <body>
+    <header class="admin-header">
+      <a href="../" class="admin-brand">PULS<strong>3</strong> <span>ADMIN</span></a>
+      <button id="signOutButton" type="button" hidden>Odhlásit</button>
+    </header>
+
+    <main>
+      <section class="login-panel" id="loginPanel">
+        <p class="kicker">CHRÁNĚNÝ PŘÍSTUP</p>
+        <h1>Správa soutěže</h1>
+        <p>Přihlas se povoleným administrátorským e-mailem.</p>
+        <form id="adminLoginForm">
+          <label>
+            <span>E-mail</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <div class="admin-captcha" id="adminCaptchaContainer" hidden></div>
+          <button type="submit">POSLAT PŘIHLAŠOVACÍ ODKAZ</button>
+        </form>
+        <p id="loginMessage" role="status"></p>
+      </section>
+
+      <section class="dashboard" id="dashboard" hidden>
+        <div class="dashboard-heading">
+          <div>
+            <p class="kicker">PULS3 RUNNER</p>
+            <h1>Přehled soutěže</h1>
+          </div>
+          <button id="refreshAdminButton" type="button">Obnovit data</button>
+        </div>
+
+        <div class="summary-grid" id="summaryGrid">
+          <article><span>Hráči</span><strong id="summaryPlayers">—</strong></article>
+          <article><span>Platné pokusy</span><strong id="summaryAttempts">—</strong></article>
+          <article><span>Ke kontrole</span><strong id="summaryFlagged">—</strong></article>
+          <article><span>Marketing ANO</span><strong id="summaryMarketing">—</strong></article>
+        </div>
+
+        <section class="admin-card">
+          <div class="card-heading">
+            <div>
+              <p class="kicker">REGISTRACE</p>
+              <h2>Účastníci</h2>
+            </div>
+            <div class="card-actions">
+              <input id="participantSearch" type="search" placeholder="Hledat jméno, školu nebo e-mail" />
+              <button id="exportCsvButton" type="button">Export CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Účastník</th><th>Škola</th><th>E-mail</th><th>Skóre</th><th>Marketing</th><th>Stav</th><th>Akce</th>
+                </tr>
+              </thead>
+              <tbody id="participantsBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="admin-card">
+          <div class="card-heading">
+            <div>
+              <p class="kicker">KONTROLA</p>
+              <h2>Podezřelé pokusy</h2>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Hráč</th><th>Skóre</th><th>Délka</th><th>Důvody</th><th>Čas</th><th>Rozhodnutí</th></tr>
+              </thead>
+              <tbody id="attemptsBody"></tbody>
+            </table>
+          </div>
+        </section>
+        <p class="admin-message" id="adminMessage" role="status"></p>
+      </section>
+    </main>
+  </body>
+</html>

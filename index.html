@@ -733,7 +733,7 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
         radial-gradient(circle at 50% -10%, rgba(168,85,247,.26), transparent 43%),
         linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
     }
-    
+
 .contact-card .section-label {
   position: relative;
   top: -8px;
@@ -813,6 +813,20 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
       .members { grid-template-columns: repeat(4, 1fr); gap: 12px; }
       .member-card:nth-child(n) { --offset: 0; }
       .gallery-grid { grid-auto-rows: 145px; }
+      .site-nav {
+        top: 10px;
+        width: calc(100% - 20px);
+        justify-content: center;
+        flex-wrap: wrap;
+        border-radius: 26px;
+      }
+      .site-nav .contest-nav-btn {
+        flex: 0 0 100%;
+        padding: 11px 12px;
+        text-align: center;
+        white-space: normal;
+      }
+      .hero-content { padding-top: 165px; }
     }
 
     @media (max-width: 720px) {

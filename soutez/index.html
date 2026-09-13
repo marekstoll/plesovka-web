@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#08050d" />
+    <meta
+      name="description"
+      content="Zahraj si soutěžní hru PULS3 a vyhraj kapelu na maturitní ples zdarma."
+    />
+    <title>Vyhraj PULS3 na maturák zdarma</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2308050d'/%3E%3Cpath d='M8 35h11l5-16 9 31 7-23 5 8h11' fill='none' stroke='%23ffd400' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="game.css" />
+    <link rel="stylesheet" href="contest.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0" defer></script>
+    <script src="config.js" defer></script>
+    <script src="app.js" defer></script>
+    <script src="game.js" defer></script>
+  </head>
+  <body>
+    <div class="page-noise" aria-hidden="true"></div>
+
+    <header class="contest-header">
+      <a class="contest-brand" href="/" aria-label="PULS3 – zpět na hlavní web">
+        <span>PULS</span><strong>3</strong>
+      </a>
+      <nav aria-label="Navigace soutěže">
+        <button class="header-link" id="headerLeaderboardButton" type="button">Žebříček</button>
+        <a class="header-link" href="pravidla/">Pravidla</a>
+        <a class="header-link" href="gdpr/">GDPR</a>
+        <a class="header-link header-link-muted" href="/">Hlavní web</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="view landing-view" id="landingView" data-view="landing">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="contest-container hero-grid">
+          <div class="hero-copy">
+            <p class="date-badge">SOUTĚŽ · 16.–30. 9. 2026</p>
+            <h1>Vyhraj kapelu na maturák <span>ZDARMA</span></h1>
+            <p class="hero-lead">
+              Nasbírej nejvyšší skóre v PULS3 Runneru a vyhraj celovečerní hudební produkci kapely PULS3 pro svoji třídu.
+            </p>
+            <div class="hero-actions">
+              <button class="gold-button gold-button-large" id="playContestButton" type="button">
+                HRÁT
+                <span aria-hidden="true">▶</span>
+              </button>
+              <button class="secondary-button" id="showLeaderboardButton" type="button">VEŘEJNÝ ŽEBŘÍČEK</button>
+            </div>
+            <p class="microcopy">
+              Registrací potvrzuješ <a href="pravidla/">pravidla soutěže</a> a seznámení s
+              <a href="gdpr/">informacemi o zpracování osobních údajů</a>.
+            </p>
+          </div>
+
+          <aside class="prize-card" aria-label="Hlavní výhra">
+            <p class="prize-rank">1. MÍSTO</p>
+            <h2>PULS3 na maturitní ples</h2>
+            <ul>
+              <li>celovečerní hudební produkce podle programu školy</li>
+              <li>hraní nejdéle do 03:00</li>
+              <li>ples na území České republiky</li>
+              <li>termín v období 2026/2027 nebo 2027/2028</li>
+              <li>doprava kapely po České republice je součástí výhry</li>
+            </ul>
+            <p class="prize-exclusion">
+              <strong>Důležité:</strong> Ozvučení a osvětlení nejsou součástí výhry.
+            </p>
+          </aside>
+        </div>
+
+        <div class="contest-container stats-row" aria-label="Informace o soutěži">
+          <div><strong id="registeredCount">—</strong><span>ověřených hráčů</span></div>
+          <div><strong>1</strong><span>hlavní výhra</span></div>
+          <div><strong>18+</strong><span>věk hráče</span></div>
+          <div><strong>3.–4.</strong><span>ročník SŠ</span></div>
+        </div>
+
+        <section class="contest-container leaderboard-section" id="leaderboardSection" aria-labelledby="leaderboardTitle">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow-text">PRŮBĚŽNÉ POŘADÍ</p>
+              <h2 id="leaderboardTitle">Veřejný žebříček</h2>
+            </div>
+            <button class="refresh-button" id="refreshLeaderboardButton" type="button">Obnovit</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Pořadí</th>
+                  <th scope="col">Hráč</th>
+                  <th scope="col">Škola</th>
+                  <th scope="col">Město</th>
+                  <th scope="col">Skóre</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody">
+                <tr><td class="table-message" colspan="5">Načítám žebříček…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="privacy-note">Zveřejňuje se pouze křestní jméno, iniciála příjmení, škola, město a nejlepší platné skóre.</p>
+        </section>
+      </section>
+
+      <section class="view form-view" id="registrationView" data-view="registration" hidden>
+        <div class="form-shell">
+          <button class="back-button" id="backFromRegistrationButton" type="button">← Zpět k soutěži</button>
+          <div class="form-card">
+            <p class="eyebrow-text">REGISTRACE DO SOUTĚŽE</p>
+            <h1>Nejdřív ověříme, kdo hraje</h1>
+            <p class="form-intro">Každý soutěžící má jeden účet. Hrát můžeš opakovaně a počítá se tvoje nejlepší platné skóre.</p>
+
+            <form id="registrationForm" novalidate>
+              <div class="form-grid">
+                <label>
+                  <span>Jméno</span>
+                  <input name="first_name" autocomplete="given-name" maxlength="60" required />
+                </label>
+                <label>
+                  <span>Příjmení</span>
+                  <input name="last_name" autocomplete="family-name" maxlength="80" required />
+                </label>
+                <label class="form-wide">
+                  <span>Název školy</span>
+                  <input name="school" autocomplete="organization" maxlength="180" required />
+                </label>
+                <label>
+                  <span>Město školy</span>
+                  <input name="city" autocomplete="address-level2" maxlength="100" required />
+                </label>
+                <label>
+                  <span>Třída</span>
+                  <input name="class_name" placeholder="např. 4.A" maxlength="30" required />
+                </label>
+                <label>
+                  <span>Ročník</span>
+                  <select name="grade" required>
+                    <option value="">Vyber ročník</option>
+                    <option value="3">3. ročník</option>
+                    <option value="4">4. ročník</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Období maturitního plesu</span>
+                  <select name="ball_season" required>
+                    <option value="">Vyber období</option>
+                    <option value="2026/2027">2026/2027</option>
+                    <option value="2027/2028">2027/2028</option>
+                  </select>
+                </label>
+                <label class="form-wide">
+                  <span>E-mail</span>
+                  <input name="email" type="email" autocomplete="email" maxlength="254" required />
+                </label>
+              </div>
+
+              <fieldset class="consent-list">
+                <legend>Potvrzení a souhlasy</legend>
+                <label class="check-row">
+                  <input name="terms_acknowledged" type="checkbox" required />
+                  <span>
+                    Seznámil/a jsem se s <a href="pravidla/" target="_blank" rel="noopener">pravidly soutěže</a>, souhlasím s nimi a beru na vědomí
+                    <a href="gdpr/" target="_blank" rel="noopener">informace o zpracování osobních údajů</a>.
+                  </span>
+                </label>
+                <label class="check-row">
+                  <input name="age_confirmed" type="checkbox" required />
+                  <span>Potvrzuji, že jsem při registraci dovršil/a 18 let a jsem studentem/studentkou 3. nebo 4. ročníku střední školy.</span>
+                </label>
+                <label class="check-row check-row-marketing">
+                  <input name="marketing_consent" type="checkbox" />
+                  <span>
+                    Pokud nevyhraji hlavní cenu, souhlasím, aby mi Marek Štolle, IČO 08373043, zaslal na uvedený e-mail jednu individuální zvýhodněnou nabídku kapely PULS3 na maturitní ples.
+                    Souhlas je dobrovolný, není podmínkou účasti a lze jej kdykoliv odvolat.
+                  </span>
+                </label>
+              </fieldset>
+
+              <div class="captcha-wrap" id="captchaContainer" hidden></div>
+              <div class="form-message" id="registrationMessage" role="status" aria-live="polite"></div>
+              <button class="gold-button submit-button" id="registrationSubmitButton" type="submit">OVĚŘIT E-MAIL A POKRAČOVAT</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="view form-view" id="verificationView" data-view="verification" hidden>
+        <div class="form-shell form-shell-small">
+          <div class="form-card verification-card">
+            <div class="mail-icon" aria-hidden="true">✉</div>
+            <p class="eyebrow-text">OVĚŘENÍ E-MAILU</p>
+            <h1>Zkontroluj svoji schránku</h1>
+            <p>Poslali jsme ti ověřovací odkaz. Otevři ho v tomto prohlížeči na stejném zařízení; hra se potom automaticky odemkne.</p>
+            <p class="verification-email" id="verificationEmail"></p>
+            <button class="secondary-button" id="backFromVerificationButton" type="button">Zpět</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view game-view" id="gameView" data-view="game" hidden>
+        <div class="game-page">
+          <header class="topbar" aria-label="Záhlaví hry">
+            <button class="game-back-button" id="backToContestButton" type="button">← SOUTĚŽ</button>
+            <div class="brand" aria-label="PULS3">
+              <span class="brand-puls">PULS</span><span class="brand-three">3</span>
+              <span class="brand-tag">SOUTĚŽNÍ HRA</span>
+            </div>
+
+            <div class="topbar-actions">
+              <span class="player-name" id="playerName"></span>
+              <button class="icon-button" id="soundButton" type="button" aria-label="Vypnout zvuk" title="Zvuk (M)">
+                <svg class="icon icon-sound-on" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+                  <path d="M16 9.2a4 4 0 0 1 0 5.6M18.5 6.8a7.4 7.4 0 0 1 0 10.4"></path>
+                </svg>
+                <svg class="icon icon-sound-off" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M4 9v6h4l5 4V5L8 9H4Z"></path>
+                  <path d="m17 9 5 5m0-5-5 5"></path>
+                </svg>
+              </button>
+              <button class="icon-button" id="pauseButton" type="button" aria-label="Pozastavit hru" title="Pauza (P)">
+                <svg class="icon icon-pause" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 5h4v14H7zM14 5h4v14h-4z"></path>
+                </svg>
+                <svg class="icon icon-play" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m8 5 11 7-11 7V5Z"></path>
+                </svg>
+              </button>
+            </div>
+          </header>
+
+          <section class="game-frame" id="gameFrame" aria-label="Herní plocha">
+            <div class="hud" aria-label="Skóre hry">
+              <div class="hud-item">
+                <span class="hud-label">SKÓRE</span>
+                <strong id="scoreValue">000000</strong>
+              </div>
+              <div class="hud-item hud-item-notes">
+                <span class="note-symbol" aria-hidden="true">♪</span>
+                <span class="hud-label">NOTY</span>
+                <strong id="notesValue">0</strong>
+              </div>
+              <div class="hud-item hud-item-best">
+                <span class="hud-label">REKORD</span>
+                <strong id="bestValue">000000</strong>
+              </div>
+            </div>
+
+            <canvas
+              id="gameCanvas"
+              width="1280"
+              height="720"
+              tabindex="0"
+              aria-label="PULS3 runner. Překonávej překážky a sbírej noty."
+            ></canvas>
+
+            <div class="screen-flash" id="screenFlash" aria-hidden="true"></div>
+
+            <div class="game-overlay is-visible" id="startOverlay">
+              <div class="overlay-card">
+                <p class="eyebrow">PULS3 RUNNER</p>
+                <h1>
+                  <span class="title-line title-main">Rozjeď ples</span>
+                  <span class="title-line title-accent">na plný puls!</span>
+                </h1>
+                <p class="overlay-copy">Nasbírej co největší skóre a vyhraj.</p>
+                <button class="primary-button" id="startButton" type="button">
+                  <span>HRÁT</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 10 7-10 7V5Z"></path></svg>
+                </button>
+                <div class="control-hints" aria-label="Ovládání">
+                  <span><kbd>MEZERNÍK</kbd> / <kbd>↑</kbd></span>
+                  <span class="hint-divider">nebo</span>
+                  <span><span class="tap-icon" aria-hidden="true">●</span> KLEPNUTÍ</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="game-overlay" id="pauseOverlay">
+              <div class="overlay-card overlay-card-small">
+                <p class="eyebrow">PAUZA</p>
+                <h2>Chyť dech</h2>
+                <button class="primary-button" id="resumeButton" type="button">POKRAČOVAT</button>
+              </div>
+            </div>
+
+            <div class="game-overlay" id="gameOverOverlay">
+              <div class="overlay-card overlay-card-score">
+                <p class="eyebrow">KONEC HRY</p>
+                <h2 id="gameOverTitle">Ještě jeden pokus?</h2>
+                <div class="result-grid">
+                  <div><span>SKÓRE</span><strong id="finalScore">0</strong></div>
+                  <div><span>REKORD</span><strong id="finalBest">0</strong></div>
+                </div>
+                <p class="score-save-status" id="scoreSaveStatus" role="status" aria-live="polite"></p>
+                <p class="new-record" id="newRecordMessage">NOVÝ REKORD!</p>
+                <button class="primary-button" id="restartButton" type="button">HRÁT ZNOVU</button>
+              </div>
+            </div>
+
+            <p class="live-status" id="liveStatus" aria-live="polite"></p>
+          </section>
+
+          <footer class="game-footer">
+            <p><strong>SKOČ:</strong> mezerník, šipka nahoru nebo klepnutí</p>
+            <p><strong>PAUZA:</strong> P &nbsp;·&nbsp; <strong>ZVUK:</strong> M</p>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <footer class="contest-footer">
+      <a href="/">PULS3</a>
+      <span>·</span>
+      <a href="pravidla/">Pravidla soutěže</a>
+      <span>·</span>
+      <a href="gdpr/">Ochrana osobních údajů</a>
+      <span>·</span>
+      <a href="mailto:booking@puls3.cz">booking@puls3.cz</a>
+      <span id="withdrawSeparator" hidden>·</span>
+      <button class="footer-action" id="withdrawMarketingButton" type="button" hidden>Odvolat marketingový souhlas</button>
+      <span id="sessionSeparator" hidden>·</span>
+      <button class="footer-action" id="playerSignOutButton" type="button" hidden>Odhlásit hráče</button>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
