@@ -14,6 +14,7 @@
   const registrationForm = document.getElementById("registrationForm");
   const registrationMessage = document.getElementById("registrationMessage");
   const registrationSubmitButton = document.getElementById("registrationSubmitButton");
+  const registrationPreviewNote = document.getElementById("registrationPreviewNote");
   const verificationEmail = document.getElementById("verificationEmail");
   const playerName = document.getElementById("playerName");
   const toast = document.getElementById("toast");
@@ -75,6 +76,28 @@
     if (now < starts) return "before";
     if (now > ends) return "after";
     return "open";
+  }
+
+  function configureRegistrationAvailability() {
+    const phase = contestPhase();
+    if (phase === "before") {
+      registrationPreviewNote.hidden = false;
+      registrationPreviewNote.textContent = "Náhled registračního formuláře. Registraci bude možné odeslat od 16. září 2026.";
+      registrationSubmitButton.disabled = true;
+      registrationSubmitButton.textContent = "REGISTRACE OD 16. 9. 2026";
+      return;
+    }
+    if (phase === "after") {
+      registrationPreviewNote.hidden = false;
+      registrationPreviewNote.textContent = "Registrace do této soutěže už skončila.";
+      registrationSubmitButton.disabled = true;
+      registrationSubmitButton.textContent = "REGISTRACE UKONČENA";
+      return;
+    }
+    registrationPreviewNote.hidden = true;
+    registrationPreviewNote.textContent = "";
+    registrationSubmitButton.disabled = false;
+    registrationSubmitButton.textContent = "OVĚŘIT E-MAIL A POKRAČOVAT";
   }
 
   function readPendingRegistration() {
@@ -282,8 +305,7 @@
       setRegistrationMessage("Ověřovací e-mail se nepodařilo odeslat. Zkus to prosím za chvíli znovu.");
     } finally {
       if (captchaEnabled() && captchaWidgetId !== null) window.turnstile.reset(captchaWidgetId);
-      registrationSubmitButton.disabled = false;
-      registrationSubmitButton.textContent = "OVĚŘIT E-MAIL A POKRAČOVAT";
+      configureRegistrationAvailability();
     }
   }
 
@@ -416,12 +438,7 @@
       showView("game");
       return;
     }
-    if (contestPhase() !== "open") {
-      showToast(contestPhase() === "before"
-        ? "Registrace a soutěž se otevřou 16. září 2026."
-        : "Registrace i soutěž už skončily.");
-      return;
-    }
+    configureRegistrationAvailability();
     showView("registration");
   }
 
@@ -460,7 +477,6 @@
     showToast("Hráč byl odhlášen.");
   }
 
-  document.getElementById("playContestButton").addEventListener("click", openContestEntry);
   document.getElementById("showLeaderboardButton").addEventListener("click", showLeaderboard);
   document.getElementById("headerLeaderboardButton").addEventListener("click", showLeaderboard);
   document.getElementById("refreshLeaderboardButton").addEventListener("click", loadLeaderboard);
@@ -484,6 +500,11 @@
   loadLeaderboard();
   loadRegisteredCount();
   setupCaptcha();
+  configureRegistrationAvailability();
+
+  if (new URLSearchParams(window.location.search).get("view") === "registration") {
+    showView("registration");
+  }
 
   if (client) {
     client.auth.onAuthStateChange((_event, nextSession) => {

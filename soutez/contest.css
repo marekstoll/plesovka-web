@@ -17,7 +17,7 @@ html {
 
 body {
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.65;
 }
 
 body::before {
@@ -197,7 +197,7 @@ a {
   margin: 28px 0 0;
   color: #d6cddd;
   font-size: clamp(1rem, 1.7vw, 1.22rem);
-  line-height: 1.65;
+  line-height: 1.75;
 }
 
 .hero-actions {
@@ -227,6 +227,7 @@ a {
   color: #09070b;
   background: linear-gradient(115deg, #ffef67 0%, var(--contest-gold) 48%, #f2ae00 100%);
   box-shadow: 0 10px 38px rgba(255, 198, 0, 0.28), inset 0 1px rgba(255, 255, 255, 0.65);
+  text-decoration: none;
 }
 
 .gold-button-large {
@@ -274,7 +275,7 @@ a {
   margin: 18px 0 0;
   color: #998ca4;
   font-size: 0.82rem;
-  line-height: 1.55;
+  line-height: 1.75;
 }
 
 .microcopy a,
@@ -334,7 +335,7 @@ a {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 13px;
+  gap: 17px;
   list-style: none;
   color: #d7cddd;
 }
@@ -342,6 +343,7 @@ a {
 .prize-card li {
   position: relative;
   padding-left: 24px;
+  line-height: 1.65;
 }
 
 .prize-card li::before {
@@ -359,6 +361,7 @@ a {
   color: #e9dfe9;
   background: rgba(255, 255, 255, 0.055);
   font-size: 0.9rem;
+  line-height: 1.65;
 }
 
 .stats-row {
@@ -502,6 +505,7 @@ td:last-child {
   margin: 12px 4px 0;
   color: #8f8299;
   font-size: 0.8rem;
+  line-height: 1.65;
 }
 
 .form-view {
@@ -542,12 +546,24 @@ td:last-child {
   max-width: 700px;
   margin: 15px 0 30px;
   color: #bfb3c6;
+  line-height: 1.75;
+}
+
+.form-preview-note {
+  margin: -10px 0 30px;
+  padding: 15px 17px;
+  border: 1px solid rgba(255, 212, 0, 0.3);
+  border-radius: 14px;
+  color: #fff1a8;
+  background: rgba(255, 212, 0, 0.075);
+  font-size: 0.92rem;
+  line-height: 1.65;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 20px 18px;
 }
 
 .form-grid label {
@@ -593,7 +609,7 @@ select:focus {
   margin: 28px 0 0;
   padding: 0;
   display: grid;
-  gap: 12px;
+  gap: 16px;
   border: 0;
 }
 
@@ -602,7 +618,7 @@ select:focus {
 }
 
 .check-row {
-  padding: 15px;
+  padding: 17px;
   display: grid;
   grid-template-columns: 22px 1fr;
   align-items: start;
@@ -612,7 +628,7 @@ select:focus {
   color: #cfc5d5;
   background: rgba(255, 255, 255, 0.035);
   font-size: 0.88rem;
-  line-height: 1.55;
+  line-height: 1.75;
 }
 
 .check-row input {
@@ -631,6 +647,7 @@ select:focus {
   margin-top: 18px;
   color: #ffcabf;
   font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 .captcha-wrap {
@@ -653,6 +670,7 @@ select:focus {
 
 .verification-card > p:not(.eyebrow-text) {
   color: #c8bdce;
+  line-height: 1.7;
 }
 
 .mail-icon {

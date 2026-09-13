@@ -25,14 +25,14 @@
     <div class="page-noise" aria-hidden="true"></div>
 
     <header class="contest-header">
-      <a class="contest-brand" href="/" aria-label="PULS3 – zpět na hlavní web">
+      <a class="contest-brand" href="/" target="_blank" rel="noopener" aria-label="PULS3 – otevřít hlavní web v nové kartě">
         <span>PULS</span><strong>3</strong>
       </a>
       <nav aria-label="Navigace soutěže">
         <button class="header-link" id="headerLeaderboardButton" type="button">Žebříček</button>
-        <a class="header-link" href="pravidla/">Pravidla</a>
-        <a class="header-link" href="gdpr/">GDPR</a>
-        <a class="header-link header-link-muted" href="/">Hlavní web</a>
+        <a class="header-link" href="pravidla/" target="_blank" rel="noopener">Pravidla</a>
+        <a class="header-link" href="gdpr/" target="_blank" rel="noopener">GDPR</a>
+        <a class="header-link header-link-muted" href="/" target="_blank" rel="noopener">Hlavní web</a>
       </nav>
     </header>
 
@@ -44,27 +44,26 @@
             <p class="date-badge">SOUTĚŽ · 16.–30. 9. 2026</p>
             <h1>Vyhraj kapelu na maturák <span>ZDARMA</span></h1>
             <p class="hero-lead">
-              Nasbírej nejvyšší skóre v PULS3 Runneru a vyhraj celovečerní hudební produkci kapely PULS3 pro svoji třídu.
+              Nasbírej nejvyšší skóre v PULS3 Runneru a vyhraj živé vystoupení kapely PULS3 na maturitním plese své třídy.
             </p>
             <div class="hero-actions">
-              <button class="gold-button gold-button-large" id="playContestButton" type="button">
+              <a class="gold-button gold-button-large" id="playContestButton" href="?view=registration" target="_blank" rel="noopener">
                 HRÁT
                 <span aria-hidden="true">▶</span>
-              </button>
+              </a>
               <button class="secondary-button" id="showLeaderboardButton" type="button">VEŘEJNÝ ŽEBŘÍČEK</button>
             </div>
             <p class="microcopy">
-              Registrací potvrzuješ <a href="pravidla/">pravidla soutěže</a> a seznámení s
-              <a href="gdpr/">informacemi o zpracování osobních údajů</a>.
+              Registrací potvrzuješ <a href="pravidla/" target="_blank" rel="noopener">pravidla soutěže</a> a seznámení s
+              <a href="gdpr/" target="_blank" rel="noopener">informacemi o zpracování osobních údajů</a>.
             </p>
           </div>
 
           <aside class="prize-card" aria-label="Hlavní výhra">
-            <p class="prize-rank">1. MÍSTO</p>
+            <p class="prize-rank">VÝHRA</p>
             <h2>PULS3 na maturitní ples</h2>
             <ul>
-              <li>celovečerní hudební produkce podle programu školy</li>
-              <li>hraní nejdéle do 03:00</li>
+              <li>živé vystoupení kapely PULS3 na maturitním plese vítězné třídy</li>
               <li>ples na území České republiky</li>
               <li>termín v období 2026/2027 nebo 2027/2028</li>
               <li>doprava kapely po České republice je součástí výhry</li>
@@ -117,6 +116,7 @@
             <p class="eyebrow-text">REGISTRACE DO SOUTĚŽE</p>
             <h1>Nejdřív ověříme, kdo hraje</h1>
             <p class="form-intro">Každý soutěžící má jeden účet. Hrát můžeš opakovaně a počítá se tvoje nejlepší platné skóre.</p>
+            <p class="form-preview-note" id="registrationPreviewNote" hidden></p>
 
             <form id="registrationForm" novalidate>
               <div class="form-grid">
@@ -178,8 +178,8 @@
                 <label class="check-row check-row-marketing">
                   <input name="marketing_consent" type="checkbox" />
                   <span>
-                    Pokud nevyhraji hlavní cenu, souhlasím, aby mi Marek Štolle, IČO 08373043, zaslal na uvedený e-mail jednu individuální zvýhodněnou nabídku kapely PULS3 na maturitní ples.
-                    Souhlas je dobrovolný, není podmínkou účasti a lze jej kdykoliv odvolat.
+                    Pokud nevyhraji, souhlasím, aby mi Marek Štolle, IČO 08373043, zaslal na uvedený ověřený e-mail jedno obchodní sdělení se zvýhodněnou nabídkou vystoupení kapely PULS3 pro maturitní ples naší třídy nebo školy.
+                    Souhlas je dobrovolný, není podmínkou účasti a mohu jej kdykoliv odvolat odpovědí na nabídku nebo na booking@puls3.cz.
                   </span>
                 </label>
               </fieldset>
@@ -318,11 +318,11 @@
     </main>
 
     <footer class="contest-footer">
-      <a href="/">PULS3</a>
+      <a href="/" target="_blank" rel="noopener">PULS3</a>
       <span>·</span>
-      <a href="pravidla/">Pravidla soutěže</a>
+      <a href="pravidla/" target="_blank" rel="noopener">Pravidla soutěže</a>
       <span>·</span>
-      <a href="gdpr/">Ochrana osobních údajů</a>
+      <a href="gdpr/" target="_blank" rel="noopener">Ochrana osobních údajů</a>
       <span>·</span>
       <a href="mailto:booking@puls3.cz">booking@puls3.cz</a>
       <span id="withdrawSeparator" hidden>·</span>
