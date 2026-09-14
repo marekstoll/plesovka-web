@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import base64
 import csv
 import io
 import json
@@ -79,37 +80,44 @@ def create_csv(rows):
     return ("\ufeff" + output.getvalue()).encode("utf-8")
 
 
-def send_mail(rows, csv_bytes, smtp_host, smtp_password):
+def send_mail(rows, csv_bytes, resend_api_key):
     now = datetime.now(ZoneInfo("Europe/Prague"))
-    message = EmailMessage()
-    message["From"] = MAILBOX
-    message["To"] = MAILBOX
-    message["Subject"] = f"PULS3 – {len(rows)} nových nebo změněných registrací – {now:%d. %m. %Y %H:%M}"
-    message.set_content(
-        "V příloze je souhrn nových nebo změněných registrací do soutěže PULS3.\n\n"
-        f"Počet záznamů: {len(rows)}\n"
-        "Soubor obsahuje kontaktní údaje, školu, třídu, období plesu, "
-        "marketingový souhlas a aktuální nejlepší skóre.\n\n"
-        "Jde o automatickou zprávu; osobní údaje chraňte před neoprávněným přístupem."
+    payload = {
+        "from": "PULS3 soutěž <registrace@soutez.puls3.cz>",
+        "to": [MAILBOX],
+        "subject": f"PULS3 – {len(rows)} nových nebo změněných registrací – {now:%d. %m. %Y %H:%M}",
+        "text": (
+            "V příloze je souhrn nových nebo změněných registrací do soutěže PULS3.\n\n"
+            f"Počet záznamů: {len(rows)}\n"
+            "Soubor obsahuje kontaktní údaje, školu, třídu, období plesu, "
+            "marketingový souhlas a aktuální nejlepší skóre.\n\n"
+            "Jde o automatickou zprávu; osobní údaje chraňte před neoprávněným přístupem."
+        ),
+        "attachments": [{
+            "filename": f"puls3-registrace-{now:%Y-%m-%d-%H%M}.csv",
+            "content": base64.b64encode(csv_bytes).decode("ascii"),
+        }],
+    }
+    request = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=json.dumps(payload).encode("utf-8"),
+        method="POST",
+        headers={
+            "Authorization": f"Bearer {resend_api_key}",
+            "Content-Type": "application/json",
+        },
     )
-    message.add_attachment(
-        csv_bytes,
-        maintype="text",
-        subtype="csv",
-        filename=f"puls3-registrace-{now:%Y-%m-%d-%H%M}.csv",
-    )
-
-    context = ssl.create_default_context()
-    port = int(os.environ.get("SMTP_PORT", "").strip() or "465")
-    with smtplib.SMTP_SSL(smtp_host, port, timeout=45, context=context) as smtp:
-        smtp.login(MAILBOX, smtp_password)
-        smtp.send_message(message)
+    try:
+        with urllib.request.urlopen(request, timeout=45) as response:
+            response.read()
+    except urllib.error.HTTPError as error:
+        detail = error.read().decode("utf-8", "replace")[:1000]
+        raise RuntimeError(f"Resend odeslání selhalo ({error.code}): {detail}") from error
 
 
 def main():
     secret_key = required_env("SUPABASE_SECRET_KEY")
-    smtp_host = required_env("SMTP_HOST")
-    smtp_password = required_env("SMTP_PASSWORD")
+       resend_api_key = required_env("RESEND_API_KEY")
 
     rows = supabase_rpc("pending_registration_digest", {"p_limit": 5000}, secret_key) or []
     if not rows:
@@ -117,7 +125,7 @@ def main():
         return
 
     csv_bytes = create_csv(rows)
-    send_mail(rows, csv_bytes, smtp_host, smtp_password)
+        send_mail(rows, csv_bytes, resend_api_key)
     user_ids = [row["user_id"] for row in rows]
     marked = supabase_rpc("mark_registration_digest_sent", {"p_user_ids": user_ids}, secret_key)
     print(f"Souhrn odeslán; označeno registrací: {marked}.")
