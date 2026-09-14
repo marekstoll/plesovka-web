@@ -117,7 +117,7 @@ def send_mail(rows, csv_bytes, resend_api_key):
 
 def main():
     secret_key = required_env("SUPABASE_SECRET_KEY")
-       resend_api_key = required_env("RESEND_API_KEY")
+    resend_api_key = required_env("RESEND_API_KEY")
 
     rows = supabase_rpc("pending_registration_digest", {"p_limit": 5000}, secret_key) or []
     if not rows:
@@ -125,7 +125,7 @@ def main():
         return
 
     csv_bytes = create_csv(rows)
-        send_mail(rows, csv_bytes, resend_api_key)
+    send_mail(rows, csv_bytes, resend_api_key)
     user_ids = [row["user_id"] for row in rows]
     marked = supabase_rpc("mark_registration_digest_sent", {"p_user_ids": user_ids}, secret_key)
     print(f"Souhrn odeslán; označeno registrací: {marked}.")
