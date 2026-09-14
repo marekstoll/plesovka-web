@@ -375,6 +375,40 @@ button {
   opacity: 0.62;
   transform: none;
 }
+#gameOverOverlay {
+  padding: 8px 12px;
+}
+
+.overlay-card-score {
+  padding: 14px 24px;
+}
+
+.overlay-card-score h2 {
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+  line-height: 1;
+}
+
+.overlay-card-score .result-grid {
+  margin: 10px auto 6px;
+}
+
+.overlay-card-score .result-grid div {
+  padding: 10px;
+}
+
+.overlay-card-score .score-save-status {
+  margin-bottom: 4px;
+}
+
+.overlay-card-score .new-record {
+  min-height: 18px;
+  margin-bottom: 6px;
+}
+
+.overlay-card-score .primary-button {
+  min-height: 46px;
+  padding-block: 10px;
+}
 .game-over-actions {
   display: flex;
   flex-direction: column;
