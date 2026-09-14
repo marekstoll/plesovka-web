@@ -20,14 +20,18 @@
       <section class="login-panel" id="loginPanel">
         <p class="kicker">CHRÁNĚNÝ PŘÍSTUP</p>
         <h1>Správa soutěže</h1>
-        <p>Přihlas se povoleným administrátorským e-mailem.</p>
+        <p>Přihlas se povoleným administrátorským účtem.</p>
         <form id="adminLoginForm">
           <label>
             <span>E-mail</span>
             <input type="email" name="email" autocomplete="email" required />
           </label>
+          <label>
+            <span>Heslo</span>
+            <input type="password" name="password" autocomplete="current-password" required />
+          </label>
           <div class="admin-captcha" id="adminCaptchaContainer" hidden></div>
-          <button type="submit">POSLAT PŘIHLAŠOVACÍ ODKAZ</button>
+          <button type="submit">PŘIHLÁSIT</button>
         </form>
         <p id="loginMessage" role="status"></p>
       </section>

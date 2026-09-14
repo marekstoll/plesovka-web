@@ -17,7 +17,12 @@
     !String(config.supabasePublishableKey || "").startsWith("DOPLNIT");
   const client = configured && window.supabase
     ? window.supabase.createClient(config.supabaseUrl, config.supabasePublishableKey, {
-        auth: { persistSession: true, detectSessionInUrl: true, flowType: "pkce" }
+        auth: {
+          persistSession: true,
+          detectSessionInUrl: true,
+          flowType: "pkce",
+          storageKey: "puls3-contest-admin-auth"
+        }
       })
     : null;
   let searchTimer = 0;
@@ -93,7 +98,9 @@
       loginMessage.textContent = "Databáze zatím není připojená.";
       return;
     }
-    const email = new FormData(loginForm).get("email").trim().toLowerCase();
+    const formData = new FormData(loginForm);
+    const email = String(formData.get("email") || "").trim().toLowerCase();
+    const password = String(formData.get("password") || "");
     const captchaToken = captchaEnabled() && captchaWidgetId !== null
       ? window.turnstile.getResponse(captchaWidgetId)
       : undefined;
@@ -101,22 +108,17 @@
       loginMessage.textContent = "Potvrď bezpečnostní kontrolu.";
       return;
     }
-    loginMessage.textContent = "Odesílám přihlašovací odkaz…";
+    loginMessage.textContent = "Přihlašuji…";
     try {
-      const { error } = await client.auth.signInWithOtp({
+      const { error } = await client.auth.signInWithPassword({
         email,
-        options: {
-          emailRedirectTo: `${location.origin}/soutez/admin/`,
-          shouldCreateUser: false,
-          captchaToken
-        }
+        password,
+        options: { captchaToken }
       });
-      loginMessage.textContent = error
-        ? "Odkaz se nepodařilo odeslat."
-        : "Odkaz je odeslaný. Otevři ho na tomto zařízení ve stejném prohlížeči.";
+      loginMessage.textContent = error ? "Nesprávný e-mail nebo heslo." : "Přihlášení proběhlo.";
     } catch (error) {
       console.error(error);
-      loginMessage.textContent = "Odkaz se nepodařilo odeslat. Zkontroluj připojení.";
+      loginMessage.textContent = "Přihlášení se nepodařilo. Zkontroluj připojení.";
     } finally {
       if (captchaEnabled() && captchaWidgetId !== null) window.turnstile.reset(captchaWidgetId);
     }

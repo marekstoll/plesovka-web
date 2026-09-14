@@ -2,11 +2,9 @@
   "use strict";
 
   const config = window.PULS3_CONTEST_CONFIG || {};
-  const pendingKey = "puls3-contest-pending-registration-v1";
   const views = Array.from(document.querySelectorAll("[data-view]"));
   const landingView = document.getElementById("landingView");
   const registrationView = document.getElementById("registrationView");
-  const verificationView = document.getElementById("verificationView");
   const gameView = document.getElementById("gameView");
   const leaderboardSection = document.getElementById("leaderboardSection");
   const leaderboardBody = document.getElementById("leaderboardBody");
@@ -15,7 +13,6 @@
   const registrationMessage = document.getElementById("registrationMessage");
   const registrationSubmitButton = document.getElementById("registrationSubmitButton");
   const registrationPreviewNote = document.getElementById("registrationPreviewNote");
-  const verificationEmail = document.getElementById("verificationEmail");
   const playerName = document.getElementById("playerName");
   const toast = document.getElementById("toast");
   const withdrawMarketingButton = document.getElementById("withdrawMarketingButton");
@@ -36,7 +33,8 @@
         auth: {
           persistSession: true,
           detectSessionInUrl: true,
-          flowType: "pkce"
+          flowType: "pkce",
+          storageKey: "puls3-contest-player-auth"
         }
       })
     : null;
@@ -46,6 +44,7 @@
   let activeAttempt = null;
   let toastTimer = 0;
   let hydrating = false;
+  let registrationSubmissionInProgress = false;
   let captchaWidgetId = null;
 
   function showView(name) {
@@ -82,9 +81,9 @@
     const phase = contestPhase();
     if (phase === "before") {
       registrationPreviewNote.hidden = false;
-      registrationPreviewNote.textContent = "Náhled registračního formuláře. Registraci bude možné odeslat od 16. září 2026.";
+      registrationPreviewNote.textContent = "Náhled registračního formuláře. Registraci bude možné odeslat od 14. září 2026.";
       registrationSubmitButton.disabled = true;
-      registrationSubmitButton.textContent = "REGISTRACE OD 16. 9. 2026";
+      registrationSubmitButton.textContent = "REGISTRACE OD 14. 9. 2026";
       return;
     }
     if (phase === "after") {
@@ -97,39 +96,7 @@
     registrationPreviewNote.hidden = true;
     registrationPreviewNote.textContent = "";
     registrationSubmitButton.disabled = false;
-    registrationSubmitButton.textContent = "OVĚŘIT E-MAIL A POKRAČOVAT";
-  }
-
-  function readPendingRegistration() {
-    try {
-      const value = window.localStorage.getItem(pendingKey);
-      if (!value) return null;
-      const stored = JSON.parse(value);
-      if (stored?.saved_at && Date.now() - stored.saved_at > 24 * 60 * 60 * 1000) {
-        window.localStorage.removeItem(pendingKey);
-        return null;
-      }
-      return stored?.payload || stored;
-    } catch {
-      return null;
-    }
-  }
-
-  function savePendingRegistration(payload) {
-    try {
-      window.localStorage.setItem(pendingKey, JSON.stringify({ payload, saved_at: Date.now() }));
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  function clearPendingRegistration() {
-    try {
-      window.localStorage.removeItem(pendingKey);
-    } catch {
-      // Bez dopadu na dokončenou registraci.
-    }
+    registrationSubmitButton.textContent = "REGISTROVAT A HRÁT";
   }
 
   function normalizeText(value) {
@@ -198,6 +165,7 @@
 
   async function finalizeRegistration(payload) {
     const { data, error } = await client.rpc("finalize_registration", {
+      p_email: payload.email,
       p_first_name: payload.first_name,
       p_last_name: payload.last_name,
       p_school: payload.school,
@@ -213,7 +181,6 @@
       p_marketing_version: payload.marketing_version
     });
     if (error) throw error;
-    clearPendingRegistration();
     return data;
   }
 
@@ -226,10 +193,6 @@
       session = result.data.session;
       if (!session) return;
       registration = await getRegistration();
-      if (!registration) {
-        const pending = readPendingRegistration();
-        if (pending) registration = await finalizeRegistration(pending);
-      }
       if (registration) {
         playerName.textContent = `${registration.first_name} · ${registration.school}`;
         withdrawMarketingButton.hidden = !registration.marketing_consent;
@@ -237,16 +200,13 @@
         playerSignOutButton.hidden = false;
         sessionSeparator.hidden = false;
         loadRegisteredCount();
-        if (window.location.hash.includes("access_token") || window.location.search.includes("code=")) {
-          window.history.replaceState({}, document.title, `${window.location.origin}${window.location.pathname}`);
-        }
         showView("game");
-        showToast("E-mail je ověřený. Můžeš hrát.");
+        showToast("Registrace je hotová. Můžeš hrát.");
       }
     } catch (error) {
       console.error(error);
       showView("registration");
-      setRegistrationMessage("Ověření proběhlo, ale registraci se nepodařilo dokončit. Zkontroluj údaje a odešli formulář znovu.");
+      setRegistrationMessage("Registraci se nepodařilo načíst. Obnov stránku a zkus to znovu.");
     } finally {
       hydrating = false;
     }
@@ -257,7 +217,7 @@
     setRegistrationMessage("");
     if (contestPhase() !== "open") {
       setRegistrationMessage(contestPhase() === "before"
-        ? "Registrace se otevře 16. září 2026."
+        ? "Registrace se otevře 14. září 2026."
         : "Registrace do této soutěže už skončila.");
       return;
     }
@@ -280,30 +240,41 @@
       return;
     }
 
-    if (!savePendingRegistration(payload)) {
-      setRegistrationMessage("Pro dokončení ověření povol v prohlížeči nezbytné úložiště webu.");
-      return;
-    }
     registrationSubmitButton.disabled = true;
-    registrationSubmitButton.textContent = "ODESÍLÁM…";
+    registrationSubmitButton.textContent = "REGISTRUJI…";
+    registrationSubmissionInProgress = true;
 
     try {
-      const redirectTo = `${window.location.origin}/soutez/`;
-      const { error } = await client.auth.signInWithOtp({
-        email: payload.email,
-        options: {
-          emailRedirectTo: redirectTo,
-          shouldCreateUser: true,
-          captchaToken
-        }
-      });
-      if (error) throw error;
-      verificationEmail.textContent = payload.email;
-      showView("verification");
+      if (!session) {
+        const { data: authData, error: authError } = await client.auth.signInAnonymously({
+          options: { captchaToken }
+        });
+        if (authError) throw authError;
+        session = authData.session;
+      }
+      if (!session) throw new Error("AUTH_SESSION_MISSING");
+
+      registration = await finalizeRegistration(payload);
+      playerName.textContent = `${registration.first_name} · ${registration.school}`;
+      withdrawMarketingButton.hidden = !registration.marketing_consent;
+      withdrawSeparator.hidden = !registration.marketing_consent;
+      playerSignOutButton.hidden = false;
+      sessionSeparator.hidden = false;
+      registrationForm.reset();
+      showView("game");
+      showToast("Registrace je uložená. Můžeš hrát.");
+      loadRegisteredCount();
     } catch (error) {
       console.error(error);
-      setRegistrationMessage("Ověřovací e-mail se nepodařilo odeslat. Zkus to prosím za chvíli znovu.");
+      if (error?.code === "23505" || /EMAIL_ALREADY_REGISTERED/.test(error?.message || "")) {
+        setRegistrationMessage("Tento e-mail už je v soutěži zaregistrovaný.");
+      } else if (error?.status === 429 || /rate limit/i.test(error?.message || "")) {
+        setRegistrationMessage("Z této sítě právě proběhlo příliš mnoho registrací. Zkus to za chvíli znovu.");
+      } else {
+        setRegistrationMessage("Registraci se nepodařilo uložit. Zkus to prosím znovu.");
+      }
     } finally {
+      registrationSubmissionInProgress = false;
       if (captchaEnabled() && captchaWidgetId !== null) window.turnstile.reset(captchaWidgetId);
       configureRegistrationAvailability();
     }
@@ -364,22 +335,6 @@
     }
   }
 
-  async function callContestFunction(name, body) {
-    if (!client || !session) throw new Error("Nejsi přihlášený/á.");
-    const response = await fetch(`${config.supabaseUrl}/functions/v1/${name}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${session.access_token}`,
-        apikey: config.supabasePublishableKey
-      },
-      body: JSON.stringify(body)
-    });
-    const result = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(result.error || "Server soutěže požadavek odmítl.");
-    return result;
-  }
-
   async function beginAttempt() {
     if (!registration) {
       showView("registration");
@@ -391,10 +346,12 @@
       return activeAttempt;
     }
     try {
-      activeAttempt = await callContestFunction("start-attempt", {
-        contestSlug: config.contestSlug,
-        clientVersion: config.clientVersion
+      const { data, error } = await client.rpc("start_game_attempt", {
+        p_contest_slug: config.contestSlug,
+        p_client_version: config.clientVersion
       });
+      if (error) throw error;
+      activeAttempt = data;
       return activeAttempt;
     } catch (error) {
       console.error(error);
@@ -410,16 +367,17 @@
       return { accepted: false, practice: true, message: "Tréninkové skóre se do žebříčku neukládá." };
     }
     try {
-      const response = await callContestFunction("finish-attempt", {
-        contestSlug: config.contestSlug,
-        attemptId: activeAttempt.attemptId,
-        score: result.score,
-        distanceScore: result.distanceScore,
-        notes: result.notes,
-        durationMs: result.durationMs,
-        jumps: result.jumps,
-        clientVersion: config.clientVersion
+      const { data: response, error } = await client.rpc("finish_game_attempt", {
+        p_contest_slug: config.contestSlug,
+        p_attempt_id: activeAttempt.attemptId,
+        p_score: result.score,
+        p_distance_score: result.distanceScore,
+        p_notes: result.notes,
+        p_duration_ms: result.durationMs,
+        p_jumps: result.jumps,
+        p_client_version: config.clientVersion
       });
+      if (error) throw error;
       activeAttempt = null;
       if (response.accepted) {
         loadLeaderboard();
@@ -463,6 +421,7 @@
 
   async function signOutPlayer() {
     if (!client) return;
+    if (!window.confirm("Po odhlášení už tento anonymní herní účet nepůjde obnovit. Opravdu se chceš odhlásit?")) return;
     window.PULS3Game?.pauseIfRunning();
     await client.auth.signOut();
     session = null;
@@ -481,7 +440,6 @@
   document.getElementById("headerLeaderboardButton").addEventListener("click", showLeaderboard);
   document.getElementById("refreshLeaderboardButton").addEventListener("click", loadLeaderboard);
   document.getElementById("backFromRegistrationButton").addEventListener("click", () => showView("landing"));
-  document.getElementById("backFromVerificationButton").addEventListener("click", () => showView("registration"));
   document.getElementById("backToContestButton").addEventListener("click", () => {
     window.PULS3Game?.pauseIfRunning();
     showView("landing");
@@ -509,7 +467,7 @@
   if (client) {
     client.auth.onAuthStateChange((_event, nextSession) => {
       session = nextSession;
-      if (nextSession && !registration) {
+      if (nextSession && !registration && !registrationSubmissionInProgress) {
         window.setTimeout(hydrateAuthenticatedUser, 0);
       } else if (!nextSession) {
         registration = null;

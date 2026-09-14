@@ -35,7 +35,7 @@
       <h2>2. Jaké údaje zpracováváme a odkud je získáváme</h2>
       <ul>
         <li><strong>Registrační údaje od účastníka:</strong> jméno, příjmení, e-mail, název a město školy, třída, ročník a období maturitního plesu.</li>
-        <li><strong>Ověření a souhlasy:</strong> údaj o ověření e-mailu, potvrzení věku 18+, verze a čas přijetí pravidel a informace o ochraně osobních údajů, marketingová volba a čas jejího udělení nebo odvolání.</li>
+        <li><strong>Potvrzení a souhlasy:</strong> potvrzení věku 18+, verze a čas přijetí pravidel a informace o ochraně osobních údajů, marketingová volba a čas jejího udělení nebo odvolání.</li>
         <li><strong>Herní údaje vytvořené používáním služby:</strong> začátek a konec pokusu, délka hry, skóre, dílčí body, počet not a skoků, nejlepší výsledek a příznaky pro kontrolu podvodu.</li>
         <li><strong>Technické a bezpečnostní údaje:</strong> informace o požadavcích na server, relaci a autentizaci a bezpečnostní signály služby Cloudflare Turnstile; poskytovatelé infrastruktury mohou v provozních záznamech zpracovat také IP adresu, typ zařízení či prohlížeče a čas požadavku.</li>
         <li><strong>Údaje výherce:</strong> kontaktní a organizační údaje poskytnuté při potvrzení výhry a údaje nezbytné k ověření identity, studia, daňovému vypořádání a realizaci vystoupení.</li>
@@ -50,7 +50,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>Registrace, ověření účastníka, vedení soutěže, žebříčku a výsledků, kontaktování výherce a realizace výhry</td>
+              <td>Registrace, kontrola splnění podmínek účasti, vedení soutěže, žebříčku a výsledků, kontaktování výherce a realizace výhry</td>
               <td>Plnění vztahu vzniklého přijetím pravidel a kroky na žádost účastníka – čl. 6 odst. 1 písm. b) GDPR</td>
             </tr>
             <tr>
@@ -85,7 +85,7 @@
 
       <h2>5. Povinné a dobrovolné údaje</h2>
       <p>
-        Registrační údaje, potvrzení věku, seznámení s dokumenty a ověření e-mailu jsou nezbytné pro účast; bez nich registraci nelze dokončit.
+        Registrační údaje, potvrzení věku a seznámení s dokumenty jsou nezbytné pro účast; bez nich registraci nelze dokončit. E-mail při registraci technicky neověřujeme, proto účastník odpovídá za jeho správnost a dostupnost.
         Marketingový souhlas je zcela dobrovolný a jeho neposkytnutí ani odvolání nemá vliv na registraci, počet pokusů, pořadí nebo výhru.
       </p>
 
@@ -93,10 +93,10 @@
       <p>K údajům má v nezbytném rozsahu přístup Pořadatel a mohou je zpracovávat zejména:</p>
       <ul>
         <li><strong>Supabase</strong> – databáze, přihlášení, serverové funkce a provozní zabezpečení; hlavní databáze je nastavena v regionu EU;</li>
-        <li><strong>GitHub Pages / GitHub</strong> – hosting statických souborů webu a související provozní záznamy;</li>
+        <li><strong>GitHub Pages / GitHub Actions</strong> – hosting statických souborů webu, automatické vytvoření hodinového přehledu nových registrací pro Pořadatele a související provozní záznamy;</li>
         <li><strong>jsDelivr</strong> – doručení technické knihovny použité webem;</li>
         <li><strong>Cloudflare Turnstile</strong> – ochrana registračních a přihlašovacích požadavků proti botům a zneužití;</li>
-        <li><strong>Seznam.cz a nastavený SMTP e-mailový systém</strong> – doručení ověřovacích, soutěžních a případně jednoho marketingového e-mailu;</li>
+        <li><strong>Seznam.cz a nastavený SMTP e-mailový systém</strong> – doručení souhrnu registrací Pořadateli, soutěžních zpráv a případně jednoho marketingového e-mailu;</li>
         <li>technický správce, účetní nebo právní poradce v nezbytném rozsahu a orgán veřejné moci, pokud předání ukládá zákon.</li>
       </ul>
       <p>Osobní údaje neprodáváme a neposkytujeme je jiným subjektům pro jejich vlastní marketing.</p>
@@ -121,7 +121,7 @@
       <h2>9. Dobrovolný marketingový souhlas</h2>
       <p>
         Souhlas se vztahuje pouze na jedno obchodní sdělení se zvýhodněnou nabídkou vystoupení PULS3 pro maturitní ples třídy nebo školy.
-        Volbu ukládáme až v návaznosti na ověření registračního e-mailu. Zpráva bude jako obchodní nabídka rozeznatelná, uvede odesílatele a umožní přímé a bezplatné odmítnutí odpovědí na zprávu nebo e-mailem na
+        Volbu ukládáme spolu s registrací. Zpráva bude jako obchodní nabídka rozeznatelná, uvede odesílatele a umožní přímé a bezplatné odmítnutí odpovědí na zprávu nebo e-mailem na
         <a href="mailto:booking@puls3.cz">booking@puls3.cz</a>. Souhlas lze stejným způsobem odvolat i před odesláním nabídky.
         Odvolání nemá vliv na zákonnost dřívějšího zpracování ani na účast v soutěži.
       </p>
@@ -147,13 +147,13 @@
 
       <h2>12. Nezbytné ukládání v prohlížeči</h2>
       <p>
-        Web používá nezbytné lokální úložiště pro přihlášení, dokončení ověření e-mailu, dočasné uchování rozepsané registrace, místní rekord a nastavení zvuku.
-        Nepoužíváme je k reklamnímu sledování. Rozepsané registrační údaje zůstávají do ověření v prohlížeči nejdéle 24 hodin; poskytovateli autentizace se předává e-mail potřebný k odeslání ověřovacího odkazu.
+        Web používá nezbytné lokální úložiště pro zachování anonymní herní relace na daném zařízení, místní rekord a nastavení zvuku.
+        Nepoužíváme je k reklamnímu sledování. Vyplněný registrační formulář se v lokálním úložišti neuchovává; po úspěšném odeslání se údaje uloží v systému soutěže.
       </p>
 
       <h2>13. Zabezpečení a změny informací</h2>
       <p>
-        Používáme přístupová oprávnění, ověření e-mailu, šifrovaný přenos, oddělení veřejných a neveřejných údajů a další přiměřená technická a organizační opatření.
+        Používáme oddělenou anonymní herní relaci, přístupová oprávnění, ochranu Cloudflare Turnstile, šifrovaný přenos, oddělení veřejných a neveřejných údajů a další přiměřená technická a organizační opatření.
         Absolutní bezpečnost však nelze zaručit. Aktuální znění této informace je vždy dostupné na této stránce; podstatnou změnu ovlivňující již registrované účastníky oznámíme vhodným způsobem.
       </p>
     </main>

@@ -1,0 +1,31 @@
+PULS3 – REGISTRACE BEZ OVĚŘOVACÍHO E-MAILU
+
+1. Supabase → Authentication → Sign In / Providers:
+   zapnout Allow anonymous sign-ins a uložit.
+
+2. Supabase → SQL Editor:
+   spustit celý soubor
+   supabase/migrations/202609130002_anonymous_registration.sql
+
+3. GitHub:
+   nahrát soubory a složky z tohoto balíčku do kořene repozitáře.
+   Soubor soutez/config.js balíček schválně neobsahuje – živý soubor s klíči nemažte.
+
+4. V živém soutez/config.js po testu nastavit:
+   startsAt: "2026-09-14T00:01:00+02:00",
+
+5. Supabase → SQL Editor:
+   po testu spustit FINALNI-START.sql.
+
+6. Pro hodinový e-mail přidat v GitHub
+   Settings → Secrets and variables → Actions:
+   SUPABASE_SECRET_KEY
+   SMTP_HOST
+   SMTP_PASSWORD
+   SMTP_PORT (volitelně 465)
+
+7. Supabase → Authentication → Rate Limits:
+   Anonymous sign-ins nastavit na 1000 za hodinu pro jednu IP.
+
+Po registraci se hra otevře rovnou. Všechny kontaktní údaje a nejlepší skóre
+zůstávají v Supabase. Hodinový e-mail obsahuje nové registrace v CSV příloze.

@@ -41,7 +41,7 @@
         <div class="hero-glow" aria-hidden="true"></div>
         <div class="contest-container hero-grid">
           <div class="hero-copy">
-            <p class="date-badge">SOUTĚŽ · 16.–30. 9. 2026</p>
+            <p class="date-badge">SOUTĚŽ · 14.–30. 9. 2026</p>
             <h1>Vyhraj kapelu na maturák <span>ZDARMA</span></h1>
             <p class="hero-lead">
               Nasbírej nejvyšší skóre v PULS3 Runneru a vyhraj živé vystoupení kapely PULS3 na maturitním plese své třídy.
@@ -75,7 +75,7 @@
         </div>
 
         <div class="contest-container stats-row" aria-label="Informace o soutěži">
-          <div><strong id="registeredCount">—</strong><span>ověřených hráčů</span></div>
+          <div><strong id="registeredCount">—</strong><span>registrovaných hráčů</span></div>
           <div><strong>1</strong><span>hlavní výhra</span></div>
           <div><strong>18+</strong><span>věk hráče</span></div>
           <div><strong>3.–4.</strong><span>ročník SŠ</span></div>
@@ -114,8 +114,8 @@
           <button class="back-button" id="backFromRegistrationButton" type="button">← Zpět k soutěži</button>
           <div class="form-card">
             <p class="eyebrow-text">REGISTRACE DO SOUTĚŽE</p>
-            <h1>Nejdřív ověříme, kdo hraje</h1>
-            <p class="form-intro">Každý soutěžící má jeden účet. Hrát můžeš opakovaně a počítá se tvoje nejlepší platné skóre.</p>
+            <h1>Vyplň údaje a pusť se do hry</h1>
+            <p class="form-intro">Každý soutěžící má jednu registraci. Hrát můžeš opakovaně a počítá se tvoje nejlepší platné skóre.</p>
             <p class="form-preview-note" id="registrationPreviewNote" hidden></p>
 
             <form id="registrationForm" novalidate>
@@ -178,7 +178,7 @@
                 <label class="check-row check-row-marketing">
                   <input name="marketing_consent" type="checkbox" />
                   <span>
-                    Pokud nevyhraji, souhlasím, aby mi Marek Štolle, IČO 08373043, zaslal na uvedený ověřený e-mail jedno obchodní sdělení se zvýhodněnou nabídkou vystoupení kapely PULS3 pro maturitní ples naší třídy nebo školy.
+                    Pokud nevyhraji, souhlasím, aby mi Marek Štolle, IČO 08373043, zaslal na uvedený e-mail jedno obchodní sdělení se zvýhodněnou nabídkou vystoupení kapely PULS3 pro maturitní ples naší třídy nebo školy.
                     Souhlas je dobrovolný, není podmínkou účasti a mohu jej kdykoliv odvolat odpovědí na nabídku nebo na booking@puls3.cz.
                   </span>
                 </label>
@@ -186,21 +186,8 @@
 
               <div class="captcha-wrap" id="captchaContainer" hidden></div>
               <div class="form-message" id="registrationMessage" role="status" aria-live="polite"></div>
-              <button class="gold-button submit-button" id="registrationSubmitButton" type="submit">OVĚŘIT E-MAIL A POKRAČOVAT</button>
+              <button class="gold-button submit-button" id="registrationSubmitButton" type="submit">REGISTROVAT A HRÁT</button>
             </form>
-          </div>
-        </div>
-      </section>
-
-      <section class="view form-view" id="verificationView" data-view="verification" hidden>
-        <div class="form-shell form-shell-small">
-          <div class="form-card verification-card">
-            <div class="mail-icon" aria-hidden="true">✉</div>
-            <p class="eyebrow-text">OVĚŘENÍ E-MAILU</p>
-            <h1>Zkontroluj svoji schránku</h1>
-            <p>Poslali jsme ti ověřovací odkaz. Otevři ho v tomto prohlížeči na stejném zařízení; hra se potom automaticky odemkne.</p>
-            <p class="verification-email" id="verificationEmail"></p>
-            <button class="secondary-button" id="backFromVerificationButton" type="button">Zpět</button>
           </div>
         </div>
       </section>
