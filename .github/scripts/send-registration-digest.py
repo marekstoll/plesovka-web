@@ -105,6 +105,7 @@ def send_mail(rows, csv_bytes, resend_api_key):
         headers={
             "Authorization": f"Bearer {resend_api_key}",
             "Content-Type": "application/json",
+            "User-Agent": "PULS3-registration-digest/1.0",
         },
     )
     try:
