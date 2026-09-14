@@ -438,6 +438,10 @@
 
   document.getElementById("showLeaderboardButton").addEventListener("click", showLeaderboard);
   document.getElementById("headerLeaderboardButton").addEventListener("click", showLeaderboard);
+  document.getElementById("gameLeaderboardButton").addEventListener("click", () => {
+  window.PULS3Game?.pauseIfRunning();
+  showLeaderboard();
+});
   document.getElementById("refreshLeaderboardButton").addEventListener("click", loadLeaderboard);
   document.getElementById("backFromRegistrationButton").addEventListener("click", () => showView("landing"));
   document.getElementById("backToContestButton").addEventListener("click", () => {
