@@ -1308,5 +1308,53 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeGallery();
 });
   </script>
+    <div id="analytics-consent" role="dialog" aria-label="Souhlas s analytikou" hidden
+       style="position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+       z-index:99999;width:min(92%,760px);padding:18px;background:#100b18;
+       border:1px solid rgba(182,76,255,.55);border-radius:16px;
+       box-shadow:0 16px 50px rgba(0,0,0,.55);color:#fff;">
+    <div style="display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+      <p style="margin:0;flex:1 1 360px;line-height:1.45;font-size:14px;">
+        Používáme volitelnou analytiku Google Analytics, abychom věděli,
+        jak návštěvníci web používají. Spustí se pouze s vaším souhlasem.
+      </p>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button id="analytics-reject" type="button"
+                style="padding:10px 16px;border:1px solid #8d819d;border-radius:9px;
+                background:transparent;color:#fff;cursor:pointer;">
+          Odmítnout
+        </button>
+
+        <button id="analytics-accept" type="button"
+                style="padding:10px 16px;border:0;border-radius:9px;
+                background:linear-gradient(135deg,#7c3aed,#b64cff);
+                color:#fff;font-weight:700;cursor:pointer;">
+          Povolit analytiku
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const key = 'puls3AnalyticsConsent';
+      const banner = document.getElementById('analytics-consent');
+      const choice = localStorage.getItem(key);
+
+      if (!choice) banner.hidden = false;
+
+      document.getElementById('analytics-reject').addEventListener('click', () => {
+        localStorage.setItem(key, 'denied');
+        banner.hidden = true;
+      });
+
+      document.getElementById('analytics-accept').addEventListener('click', () => {
+        localStorage.setItem(key, 'granted');
+        banner.hidden = true;
+        loadGoogleAnalytics();
+      });
+    })();
+  </script>
 </body>
 </html>
