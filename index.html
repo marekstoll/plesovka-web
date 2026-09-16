@@ -1308,52 +1308,283 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeGallery();
 });
   </script>
-    <div id="analytics-consent" role="dialog" aria-label="Souhlas s analytikou" hidden
-       style="position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
-       z-index:99999;width:min(92%,760px);padding:18px;background:#100b18;
-       border:1px solid rgba(182,76,255,.55);border-radius:16px;
-       box-shadow:0 16px 50px rgba(0,0,0,.55);color:#fff;">
-    <div style="display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;">
-      <p style="margin:0;flex:1 1 360px;line-height:1.45;font-size:14px;">
-        Používáme volitelnou analytiku Google Analytics, abychom věděli,
-        jak návštěvníci web používají. Spustí se pouze s vaším souhlasem.
-      </p>
+      <div id="cookie-overlay" role="dialog" aria-modal="true"
+       aria-labelledby="cookie-title" hidden
+       style="position:fixed;inset:0;z-index:99999;display:flex;
+       align-items:center;justify-content:center;padding:24px;
+       background:rgba(3,1,7,.86);backdrop-filter:blur(12px);">
 
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button id="analytics-reject" type="button"
-                style="padding:10px 16px;border:1px solid #8d819d;border-radius:9px;
-                background:transparent;color:#fff;cursor:pointer;">
-          Odmítnout
-        </button>
+    <div style="display:flex;flex-wrap:wrap;width:min(94vw,1260px);
+         max-height:90vh;overflow:auto;background:#09070d;
+         border:1px solid rgba(182,76,255,.38);
+         box-shadow:0 30px 90px rgba(0,0,0,.75);color:#fff;">
 
-        <button id="analytics-accept" type="button"
-                style="padding:10px 16px;border:0;border-radius:9px;
-                background:linear-gradient(135deg,#7c3aed,#b64cff);
-                color:#fff;font-weight:700;cursor:pointer;">
-          Povolit analytiku
-        </button>
+      <div style="flex:1 1 320px;min-height:280px;display:flex;
+           align-items:center;justify-content:center;padding:40px;
+           background:radial-gradient(circle at center,
+           rgba(124,58,237,.22),rgba(7,5,12,.98) 68%);">
+        <img src="images/LOGO%20transparentni.png"
+             alt="PULS3"
+             style="display:block;width:min(100%,430px);height:auto;
+             filter:drop-shadow(0 0 28px rgba(168,85,247,.32));">
+      </div>
+
+      <div style="flex:1.35 1 520px;padding:clamp(28px,5vw,64px);">
+
+        <section id="cookie-intro">
+          <h2 id="cookie-title"
+              style="margin:0 0 22px;font-family:'Bebas Neue',sans-serif;
+              font-size:clamp(42px,6vw,78px);line-height:.95;letter-spacing:1px;">
+            NEŽ TO ROZJEDEME…
+          </h2>
+
+          <p style="margin:0 0 32px;font-size:clamp(16px,2vw,20px);
+             line-height:1.6;color:#ddd;">
+            Dejte nám prosím vědět, které cookies můžeme použít.
+            Analytické nám ukážou, co na webu funguje. Marketingové
+            mohou v budoucnu pomoci s měřením kampaní a remarketingem.
+            Každou kategorii si můžete nastavit zvlášť.
+          </p>
+
+          <div style="display:flex;align-items:center;justify-content:flex-end;
+               gap:14px;flex-wrap:wrap;">
+            <button id="cookie-details-open" type="button"
+                    style="padding:14px 10px;border:0;background:transparent;
+                    color:#fff;text-decoration:underline;cursor:pointer;
+                    font-weight:700;">
+              Podrobné nastavení
+            </button>
+
+            <button id="cookie-reject-all" type="button"
+                    style="padding:15px 22px;border:1px solid #756b82;
+                    background:transparent;color:#fff;border-radius:8px;
+                    cursor:pointer;font-weight:700;">
+              ODMÍTNOUT VŠE
+            </button>
+
+            <button id="cookie-accept-all" type="button"
+                    style="padding:16px 25px;border:0;border-radius:8px;
+                    background:linear-gradient(135deg,#7c3aed,#b64cff);
+                    color:#fff;box-shadow:0 8px 28px rgba(168,85,247,.3);
+                    cursor:pointer;font-weight:800;">
+              PŘIJMOUT VŠE
+            </button>
+          </div>
+        </section>
+
+        <section id="cookie-details" hidden>
+          <div style="display:flex;align-items:center;justify-content:space-between;
+               gap:15px;margin-bottom:22px;">
+            <h2 style="margin:0;font-family:'Bebas Neue',sans-serif;
+                font-size:clamp(34px,5vw,56px);line-height:1;">
+              NASTAVENÍ COOKIES
+            </h2>
+
+            <button id="cookie-back" type="button"
+                    style="border:0;background:transparent;color:#fff;
+                    text-decoration:underline;cursor:pointer;">
+              Zpět
+            </button>
+          </div>
+
+          <div style="padding:20px 0;border-top:1px solid #342d3d;">
+            <label style="display:flex;justify-content:space-between;
+                   align-items:center;gap:20px;">
+              <span>
+                <strong style="display:block;font-size:20px;">Nezbytné</strong>
+                <small style="display:block;margin-top:5px;color:#aaa;line-height:1.5;">
+                  Zajišťují základní funkce webu a uložení vaší volby.
+                  Nelze je vypnout.
+                </small>
+              </span>
+              <input type="checkbox" checked disabled
+                     style="width:24px;height:24px;accent-color:#a855f7;">
+            </label>
+          </div>
+
+          <div style="padding:20px 0;border-top:1px solid #342d3d;">
+            <label style="display:flex;justify-content:space-between;
+                   align-items:center;gap:20px;cursor:pointer;">
+              <span>
+                <strong style="display:block;font-size:20px;">Analytické</strong>
+                <small style="display:block;margin-top:5px;color:#aaa;line-height:1.5;">
+                  Google Analytics nám ukazuje návštěvnost a používání webu.
+                </small>
+              </span>
+              <input id="cookie-analytics" type="checkbox"
+                     style="width:24px;height:24px;accent-color:#a855f7;">
+            </label>
+          </div>
+
+          <div style="padding:20px 0;border-top:1px solid #342d3d;
+               border-bottom:1px solid #342d3d;">
+            <label style="display:flex;justify-content:space-between;
+                   align-items:center;gap:20px;cursor:pointer;">
+              <span>
+                <strong style="display:block;font-size:20px;">Marketingové</strong>
+                <small style="display:block;margin-top:5px;color:#aaa;line-height:1.5;">
+                  Umožní personalizaci reklam, remarketing a měření kampaní,
+                  například přes Meta Pixel nebo Google Ads, pokud budou aktivní.
+                </small>
+              </span>
+              <input id="cookie-marketing" type="checkbox"
+                     style="width:24px;height:24px;accent-color:#a855f7;">
+            </label>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:14px;
+               flex-wrap:wrap;margin-top:28px;">
+            <button id="cookie-deny-optional" type="button"
+                    style="padding:15px 22px;border:1px solid #756b82;
+                    background:transparent;color:#fff;border-radius:8px;
+                    cursor:pointer;font-weight:700;">
+              ZAKÁZAT VOLITELNÉ
+            </button>
+
+            <button id="cookie-save-selected" type="button"
+                    style="padding:16px 25px;border:0;border-radius:8px;
+                    background:linear-gradient(135deg,#7c3aed,#b64cff);
+                    color:#fff;cursor:pointer;font-weight:800;">
+              ULOŽIT VÝBĚR
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   </div>
 
+  <button id="cookie-settings-open" type="button" hidden
+          style="position:fixed;left:12px;bottom:12px;z-index:9998;
+          padding:8px 12px;border:1px solid rgba(182,76,255,.55);
+          border-radius:20px;background:#100b18;color:#ddd;
+          font-size:12px;cursor:pointer;">
+    Nastavení cookies
+  </button>
+
   <script>
     (() => {
-      const key = 'puls3AnalyticsConsent';
-      const banner = document.getElementById('analytics-consent');
-      const choice = localStorage.getItem(key);
+      const setKey = 'puls3ConsentSet';
+      const analyticsKey = 'puls3AnalyticsConsent';
+      const marketingKey = 'puls3MarketingConsent';
 
-      if (!choice) banner.hidden = false;
+      const overlay = document.getElementById('cookie-overlay');
+      const intro = document.getElementById('cookie-intro');
+      const details = document.getElementById('cookie-details');
+      const analytics = document.getElementById('cookie-analytics');
+      const marketing = document.getElementById('cookie-marketing');
+      const settingsButton = document.getElementById('cookie-settings-open');
 
-      document.getElementById('analytics-reject').addEventListener('click', () => {
-        localStorage.setItem(key, 'denied');
-        banner.hidden = true;
-      });
+      function loadMarketingTags() {
+        // Sem později doplníme Meta Pixel nebo Google Ads.
+      }
 
-      document.getElementById('analytics-accept').addEventListener('click', () => {
-        localStorage.setItem(key, 'granted');
-        banner.hidden = true;
-        loadGoogleAnalytics();
-      });
+      function showOverlay() {
+        overlay.hidden = false;
+        settingsButton.hidden = true;
+        document.body.style.overflow = 'hidden';
+      }
+
+      function openIntro() {
+        intro.hidden = false;
+        details.hidden = true;
+        showOverlay();
+      }
+
+      function openDetails() {
+        analytics.checked =
+          localStorage.getItem(analyticsKey) === 'granted';
+        marketing.checked =
+          localStorage.getItem(marketingKey) === 'granted';
+
+        intro.hidden = true;
+        details.hidden = false;
+        showOverlay();
+      }
+
+      function closeOverlay() {
+        overlay.hidden = true;
+        settingsButton.hidden = false;
+        document.body.style.overflow = '';
+      }
+
+      function clearCookie(name) {
+        document.cookie = `${name}=; Max-Age=0; path=/`;
+        document.cookie =
+          `${name}=; Max-Age=0; path=/; domain=.puls3.cz`;
+      }
+
+      function saveConsent(analyticsAllowed, marketingAllowed) {
+        const removeAnalytics =
+          localStorage.getItem(analyticsKey) === 'granted' &&
+          !analyticsAllowed;
+
+        const removeMarketing =
+          localStorage.getItem(marketingKey) === 'granted' &&
+          !marketingAllowed;
+
+        localStorage.setItem(
+          analyticsKey,
+          analyticsAllowed ? 'granted' : 'denied'
+        );
+
+        localStorage.setItem(
+          marketingKey,
+          marketingAllowed ? 'granted' : 'denied'
+        );
+
+        localStorage.setItem(setKey, 'yes');
+
+        if (analyticsAllowed) loadGoogleAnalytics();
+        if (marketingAllowed) loadMarketingTags();
+
+        if (removeAnalytics) {
+          clearCookie('_ga');
+          clearCookie('_ga_7F53ZQXLJR');
+        }
+
+        if (removeMarketing) {
+          clearCookie('_fbp');
+          clearCookie('_fbc');
+        }
+
+        closeOverlay();
+
+        if (removeAnalytics || removeMarketing) {
+          window.location.reload();
+        }
+      }
+
+      document.getElementById('cookie-details-open')
+        .addEventListener('click', openDetails);
+
+      document.getElementById('cookie-back')
+        .addEventListener('click', openIntro);
+
+      document.getElementById('cookie-accept-all')
+        .addEventListener('click', () => saveConsent(true, true));
+
+      document.getElementById('cookie-reject-all')
+        .addEventListener('click', () => saveConsent(false, false));
+
+      document.getElementById('cookie-deny-optional')
+        .addEventListener('click', () => saveConsent(false, false));
+
+      document.getElementById('cookie-save-selected')
+        .addEventListener('click', () =>
+          saveConsent(analytics.checked, marketing.checked)
+        );
+
+      settingsButton.addEventListener('click', openDetails);
+
+      if (!localStorage.getItem(setKey)) {
+        openIntro();
+      } else {
+        settingsButton.hidden = false;
+
+        if (localStorage.getItem(marketingKey) === 'granted') {
+          loadMarketingTags();
+        }
+      }
     })();
   </script>
 </body>
