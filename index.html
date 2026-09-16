@@ -1502,7 +1502,7 @@ document.addEventListener("keydown", (e) => {
       function closeOverlay() {
         overlay.style.display = 'none';
         overlay.hidden = true;
-        settingsButton.hidden = false;
+        settingsButton.hidden = true;
         document.body.style.overflow = '';
       }
 
@@ -1593,7 +1593,7 @@ document.addEventListener("keydown", (e) => {
       if (!localStorage.getItem(setKey)) {
         openIntro();
       } else {
-        settingsButton.hidden = false;
+        settingsButton.hidden = true;
 
         if (localStorage.getItem(marketingKey) === 'granted') {
           loadMarketingTags();
