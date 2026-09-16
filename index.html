@@ -1310,7 +1310,7 @@ document.addEventListener("keydown", (e) => {
   </script>
       <div id="cookie-overlay" role="dialog" aria-modal="true"
        aria-labelledby="cookie-title" hidden
-       style="position:fixed;inset:0;z-index:99999;display:flex;
+       style="position:fixed;inset:0;z-index:99999;display:none;
        align-items:center;justify-content:center;padding:24px;
        background:rgba(3,1,7,.86);backdrop-filter:blur(12px);">
 
@@ -1477,6 +1477,7 @@ document.addEventListener("keydown", (e) => {
 
       function showOverlay() {
         overlay.hidden = false;
+        overlay.style.display = 'flex';
         settingsButton.hidden = true;
         document.body.style.overflow = 'hidden';
       }
@@ -1499,6 +1500,7 @@ document.addEventListener("keydown", (e) => {
       }
 
       function closeOverlay() {
+        overlay.style.display = 'none';
         overlay.hidden = true;
         settingsButton.hidden = false;
         document.body.style.overflow = '';
