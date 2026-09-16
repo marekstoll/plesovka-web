@@ -1511,45 +1511,60 @@ document.addEventListener("keydown", (e) => {
       }
 
       function saveConsent(analyticsAllowed, marketingAllowed) {
-        const removeAnalytics =
-          localStorage.getItem(analyticsKey) === 'granted' &&
-          !analyticsAllowed;
+  const removeAnalytics =
+    localStorage.getItem(analyticsKey) === 'granted' &&
+    !analyticsAllowed;
 
-        const removeMarketing =
-          localStorage.getItem(marketingKey) === 'granted' &&
-          !marketingAllowed;
+  const removeMarketing =
+    localStorage.getItem(marketingKey) === 'granted' &&
+    !marketingAllowed;
 
-        localStorage.setItem(
-          analyticsKey,
-          analyticsAllowed ? 'granted' : 'denied'
-        );
+  localStorage.setItem(
+    analyticsKey,
+    analyticsAllowed ? 'granted' : 'denied'
+  );
 
-        localStorage.setItem(
-          marketingKey,
-          marketingAllowed ? 'granted' : 'denied'
-        );
+  localStorage.setItem(
+    marketingKey,
+    marketingAllowed ? 'granted' : 'denied'
+  );
 
-        localStorage.setItem(setKey, 'yes');
+  localStorage.setItem(setKey, 'yes');
 
-        if (analyticsAllowed) loadGoogleAnalytics();
-        if (marketingAllowed) loadMarketingTags();
+  closeOverlay();
 
-        if (removeAnalytics) {
-          clearCookie('_ga');
-          clearCookie('_ga_7F53ZQXLJR');
-        }
+  if (removeAnalytics) {
+    clearCookie('_ga');
+    clearCookie('_ga_7F53ZQXLJR');
+  }
 
-        if (removeMarketing) {
-          clearCookie('_fbp');
-          clearCookie('_fbc');
-        }
+  if (removeMarketing) {
+    clearCookie('_fbp');
+    clearCookie('_fbc');
+  }
 
-        closeOverlay();
+  try {
+    if (
+      analyticsAllowed &&
+      typeof loadGoogleAnalytics === 'function'
+    ) {
+      loadGoogleAnalytics();
+    }
 
-        if (removeAnalytics || removeMarketing) {
-          window.location.reload();
-        }
-      }
+    if (
+      marketingAllowed &&
+      typeof loadMarketingTags === 'function'
+    ) {
+      loadMarketingTags();
+    }
+  } catch (error) {
+    console.error('Chyba při spuštění měření:', error);
+  }
+
+  if (removeAnalytics || removeMarketing) {
+    window.location.reload();
+  }
+}
 
       document.getElementById('cookie-details-open')
         .addEventListener('click', openDetails);
