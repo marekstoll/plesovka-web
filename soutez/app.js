@@ -2,6 +2,7 @@
   "use strict";
 
   const config = window.PULS3_CONTEST_CONFIG || {};
+  const CONTEST_PERMANENTLY_CLOSED = true;
   const views = Array.from(document.querySelectorAll("[data-view]"));
   const landingView = document.getElementById("landingView");
   const registrationView = document.getElementById("registrationView");
@@ -47,12 +48,13 @@
   let registrationSubmissionInProgress = false;
   let captchaWidgetId = null;
 
-  function showView(name) {
+   function showView(name) {
+    if (CONTEST_PERMANENTLY_CLOSED && name !== "landing") {
+      name = "landing";
+    }
+
     for (const view of views) view.hidden = view.dataset.view !== name;
     window.scrollTo({ top: 0, behavior: "auto" });
-    if (name === "game") {
-      window.setTimeout(() => window.dispatchEvent(new Event("resize")), 30);
-    }
   }
 
   function showToast(message) {
@@ -67,7 +69,9 @@
     registrationMessage.classList.toggle("is-success", success);
   }
 
-  function contestPhase() {
+   function contestPhase() {
+    if (CONTEST_PERMANENTLY_CLOSED) return "after";
+
     const now = Date.now();
     const starts = Date.parse(config.startsAt);
     const ends = Date.parse(config.endsAt);
@@ -453,7 +457,7 @@
   playerSignOutButton.addEventListener("click", signOutPlayer);
 
   window.PULS3Contest = {
-    canPlay: () => Boolean(registration),
+    canPlay: () => !CONTEST_PERMANENTLY_CLOSED && Boolean(registration),
     requestPlay: openContestEntry,
     beginAttempt,
     finishAttempt
