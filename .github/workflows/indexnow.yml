@@ -1,0 +1,23 @@
+name: PULS3 IndexNow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for GitHub Pages
+        run: sleep 120
+
+      - name: Notify IndexNow
+        run: |
+          curl --fail --silent --show-error --get \
+            --data-urlencode "url=https://puls3.cz/" \
+            --data-urlencode "key=8d78ea7268e54c7b91994c6610ef8a46" \
+            --data-urlencode "keyLocation=https://puls3.cz/8d78ea7268e54c7b91994c6610ef8a46.txt" \
+            --write-out "HTTP %{http_code}\n" \
+            "https://api.indexnow.org/indexnow"
