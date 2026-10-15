@@ -13,11 +13,20 @@ jobs:
       - name: Wait for GitHub Pages
         run: sleep 120
 
-      - name: Notify IndexNow
+           - name: Notify IndexNow
         run: |
-          curl --fail --silent --show-error --get \
-            --data-urlencode "url=https://puls3.cz/" \
-            --data-urlencode "key=8d78ea7268e54c7b91994c6610ef8a46" \
-            --data-urlencode "keyLocation=https://puls3.cz/8d78ea7268e54c7b91994c6610ef8a46.txt" \
-            --write-out "HTTP %{http_code}\n" \
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Content-Type: application/json; charset=utf-8" \
+            --data '{
+              "host": "puls3.cz",
+              "key": "8d78ea7268e54c7b91994c6610ef8a46",
+              "keyLocation": "https://puls3.cz/8d78ea7268e54c7b91994c6610ef8a46.txt",
+              "urlList": [
+                "https://puls3.cz/",
+                "https://puls3.cz/soutez/"
+              ]
+            }' \
+            --write-out "\nHTTP %{http_code}\n" \
+            "https://api.indexnow.org/indexnow"
             "https://api.indexnow.org/indexnow"
