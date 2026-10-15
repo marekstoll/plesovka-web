@@ -13,7 +13,7 @@ jobs:
       - name: Wait for GitHub Pages
         run: sleep 120
 
-           - name: Notify IndexNow
+      - name: Notify IndexNow
         run: |
           curl --fail-with-body --silent --show-error \
             --request POST \
@@ -28,5 +28,4 @@ jobs:
               ]
             }' \
             --write-out "\nHTTP %{http_code}\n" \
-            "https://api.indexnow.org/indexnow"
             "https://api.indexnow.org/indexnow"
