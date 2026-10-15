@@ -1455,13 +1455,18 @@ document.addEventListener("keydown", (e) => {
     </div>
   </div>
 
-  <button id="cookie-settings-open" type="button" hidden
-          style="position:fixed;left:12px;bottom:12px;z-index:9998;
-          padding:8px 12px;border:1px solid rgba(182,76,255,.55);
-          border-radius:20px;background:#100b18;color:#ddd;
-          font-size:12px;cursor:pointer;">
+   <button id="cookie-settings-open" type="button"
+          style="background:none;border:0;color:#a855f7;
+          font:inherit;text-decoration:underline;cursor:pointer;
+          padding:8px 12px;">
     Nastavení cookies
   </button>
+
+  <script>
+    document.querySelector('footer').appendChild(
+      document.getElementById('cookie-settings-open')
+    );
+  </script>
 
   <script>
     (() => {
@@ -1507,7 +1512,7 @@ document.addEventListener("keydown", (e) => {
       function closeOverlay() {
         overlay.style.display = 'none';
         overlay.hidden = true;
-        settingsButton.hidden = true;
+        settingsButton.hidden = false;
         document.body.style.overflow = '';
       }
 
@@ -1598,7 +1603,7 @@ document.addEventListener("keydown", (e) => {
       if (!localStorage.getItem(setKey)) {
         openIntro();
       } else {
-        settingsButton.hidden = true;
+        settingsButton.hidden = false;
 
         if (localStorage.getItem(marketingKey) === 'granted') {
           loadMarketingTags();
