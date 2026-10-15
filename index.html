@@ -41,7 +41,8 @@
 <meta property="og:image" content="https://puls3.cz/images/logo%20pozadi.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:alt" content="Logo kapely PULS3" />
- <link rel="stylesheet" href="/fonts-local.css">
+ <link rel="preload" href="/fonts/bebas-neue.woff" as="font" type="font/woff" crossorigin>
+ <link rel="stylesheet" href="/fonts-local.css?v=2">
 
   <style>
     :root {
@@ -1019,13 +1020,13 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
     <summary class="btn" style="background:linear-gradient(135deg,rgba(124,58,237,.24),rgba(182,76,255,.16));border-color:rgba(182,76,255,.55);box-shadow:0 8px 22px rgba(139,70,255,.22);">Poslechni si nás</summary>
     <div class="listen-grid">
           <a href="https://youtu.be/U2SzLMi6P4E" target="_blank" rel="noopener">
-        <img src="/hqdefault.jpg" alt="PULS3 – videoukázka 1">
+        <img src="/hqdefault.jpg" width="480" height="360" alt="PULS3 – videoukázka 1">
       </a>
       <a href="https://youtu.be/wVdNCWl1rC0" target="_blank" rel="noopener">
-        <img src="/hqdefault%20(1).jpg" alt="PULS3 – videoukázka 2">
+        <img src="/hqdefault%20(1).jpg" width="480" height="360" alt="PULS3 – videoukázka 2">
       </a>
       <a href="https://youtu.be/uyWxNwLnTsE" target="_blank" rel="noopener">
-        <img src="/hqdefault%20(2).jpg" alt="PULS3 – videoukázka 3">
+        <img src="/hqdefault%20(2).jpg" width="480" height="360" alt="PULS3 – videoukázka 3">
       </a>
     </div>
   </details>
@@ -1099,23 +1100,23 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
      <div class="gallery-grid reveal" style="--delay:100ms">
 
   <div class="gallery-item portrait gallery-open" data-index="0">
-    <img src="images/3.JPG" alt="PULS3 – galerie" loading="lazy">
+    <img data-full="images/3.JPG" src="images/galerie-3.webp" width="800" height="1200" alt="PULS3 – galerie" loading="lazy">
   </div>
 
   <div class="gallery-item portrait gallery-open" data-index="1">
-    <img src="images/4.jpg" alt="PULS3 – galerie" loading="lazy">
+    <img data-full="images/4.jpg" src="images/galerie-4.webp" width="800" height="1200" alt="PULS3 – galerie" loading="lazy">
   </div>
 
   <div class="gallery-item portrait gallery-open" data-index="2">
-    <img src="images/11.JPG" alt="PULS3 – galerie" loading="lazy">
+    <img data-full="images/11.JPG" src="images/galerie-11.webp" width="800" height="1200" alt="PULS3 – galerie" loading="lazy">
   </div>
 
  <div class="gallery-item portrait gallery-open" data-index="3">
-  <img src="images/DSC06239.JPG" alt="PULS3 – galerie" loading="lazy">
+  <img data-full="images/DSC06239.JPG" src="images/galerie-dsc06239.webp" width="800" height="1200" alt="PULS3 – galerie" loading="lazy">
 </div>
 
 <div class="gallery-item portrait gallery-teaser gallery-open" data-index="4">
-  <img src="images/6.JPG" alt="Zobrazit celou galerii" loading="lazy">
+  <img data-full="images/6.JPG" src="images/galerie-6.webp" width="800" height="1200" alt="Zobrazit celou galerii" loading="lazy">
   <span>ZOBRAZIT<br>GALERII</span>
 </div>
 
@@ -1145,12 +1146,12 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
 
    <a class="download-card" href="images/PULS3%20rider%20a%20outputlist%20final.pdf" target="_blank">
   <span>RIDER PULS3 PRO ZVUKAŘE</span>
-      <img src="images/document_16509258.png" alt="Stage plán">
+      <img src="images/document_16509258.png" width="512" height="731" alt="Stage plán">
     </a>
 
     <a class="download-card" href="images/SETLIST%20samostatn%C3%BD.pdf" target="_blank">
       <span>SETLIST</span>
-      <img src="images/document_16509258.png" alt="Setlist">
+      <img src="images/document_16509258.png" width="512" height="731" alt="Setlist">
     </a>
 
   </div>
@@ -1170,7 +1171,7 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
     </a>
 
     <a class="instagram-link" href="https://www.instagram.com/kapela_stinovlas/" target="_blank">
-      <img src="images/ig.png" alt="Instagram Stínovlas">
+      <img src="images/instagram.webp" width="128" height="128" alt="Instagram Stínovlas">
     </a>
   </div>
 </div>
@@ -1188,7 +1189,7 @@ text-shadow: 0 0 4px rgba(255,216,77,.5);
   <button class="lightbox-close" type="button">×</button>
   <button class="lightbox-prev" type="button">‹</button>
 
-  <img class="lightbox-image" id="lightboxImage" src="" alt="PULS3 galerie">
+  <img class="lightbox-image" id="lightboxImage" alt="PULS3 galerie">
 
   <button class="lightbox-next" type="button">›</button>
   <div class="lightbox-counter" id="lightboxCounter"></div>
@@ -1271,7 +1272,8 @@ function closeGallery() {
 
 document.querySelectorAll(".gallery-open").forEach((item) => {
   item.addEventListener("click", () => {
-    const src = item.querySelector("img").getAttribute("src");
+    const image = item.querySelector("img");
+    const src = image.dataset.full || image.getAttribute("src");
     const index = galleryImages.indexOf(src);
     openGallery(index >= 0 ? index : 0);
   });
@@ -1324,7 +1326,7 @@ document.addEventListener("keydown", (e) => {
            align-items:center;justify-content:center;padding:40px;
            background:radial-gradient(circle at center,
            rgba(124,58,237,.22),rgba(7,5,12,.98) 68%);">
-        <img src="images/LOGO%20transparentni.png"
+        <img fetchpriority="high" src="images/puls3-logo.webp" width="860" height="430"
              alt="PULS3"
              style="display:block;width:min(100%,430px);height:auto;
              filter:drop-shadow(0 0 28px rgba(168,85,247,.32));">
